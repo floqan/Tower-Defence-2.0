@@ -4,15 +4,21 @@ using UnityEngine;
 
 public abstract class Building : MonoBehaviour
 {
-    BuildingData buildingData;
-    // Start is called before the first frame update
-    void Start()
+    public string Name { get; set; }
+    public int PathCost { get; set; }
+    public Sprite Preview { get; set; }
+    public GameObject prefabBuilding;
+
+    public int MoneyCost;
+    // First Value: ItemId
+    // Second Value: Amount
+    public List<KeyValuePair<int, int>> ResourcesCost;
+
+    public Building()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public Building(int cost)
     {
         
     }
