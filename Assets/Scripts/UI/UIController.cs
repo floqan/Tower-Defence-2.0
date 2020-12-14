@@ -11,16 +11,19 @@ public class UIController : MonoBehaviour
     private GameObject InventoryPanel;
     private GameObject MoneyPanel;
     private Inventory inventory;
-    private List<InventorySlot> inventorySlots;
+    private List<ObjectSlot> inventorySlots;
+    private List<ObjectSlot> plantSlots;
+    private List<ObjectSlot> towerSlots;
 
     public GameObject prefabInventorySlot;
-    
+    public GameObject prefabBuildingSlot;
+
     // Start is called before the first frame update
     void Start()
     {
-        
-        TowerPanel = GameObject.Find("TowerPanel");
-        PlantPanel = GameObject.Find("PlantPanel");
+
+        InitPlants();
+        InitTower();
         ShowTowerPanel();
         InitInventory();     
     }
@@ -36,15 +39,41 @@ public class UIController : MonoBehaviour
         InventoryPanel = GameObject.Find("InventoryPanel");
         inventory = Inventory.instance;
         inventory.OnMoneyChanged += UpdateMoneyDisplay;
-        inventorySlots = new List<InventorySlot>();
+        inventorySlots = new List<ObjectSlot>();
         for(int i = 0; i < inventory.GetNumberOfResources(); i++)
         {
             GameObject slot = Instantiate(prefabInventorySlot, InventoryPanel.transform);
-            InventorySlot inventorySlot = slot.GetComponent<InventorySlot>();
+            ObjectSlot inventorySlot = slot.GetComponent<ObjectSlot>();
             inventorySlot.InitField(inventory.GetItemByItemId(i));
             inventory.OnResourcesChanged += inventorySlot.UpdateItemDisplay;
             
             inventorySlots.Add(inventorySlot);
+        }
+    }
+
+    private void InitTower()
+    {
+        TowerPanel = GameObject.Find("TowerPanel");
+        towerSlots = new List<ObjectSlot>();
+        for(int i = 0; i < 10/*TODO*/; i++)
+        {
+            GameObject slot = Instantiate(prefabBuildingSlot, TowerPanel.transform);
+            ObjectSlot towerSlot = slot.GetComponent<ObjectSlot>();
+            towerSlot.InitField(i);
+            towerSlots.Add(towerSlot);
+        }
+    }
+
+    private void InitPlants()
+    {
+        PlantPanel = GameObject.Find("PlantPanel");
+        plantSlots = new List<ObjectSlot>();
+        for (int i = 0; i < 10/*TODO*/; i++)
+        {
+            GameObject slot = Instantiate(prefabBuildingSlot, PlantPanel.transform);
+            ObjectSlot plantSlot = slot.GetComponent<ObjectSlot>();
+            plantSlot.InitField(i);
+            plantSlots.Add(plantSlot);
         }
     }
     public void ShowTowerPanel()

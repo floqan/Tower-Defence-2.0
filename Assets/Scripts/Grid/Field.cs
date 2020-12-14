@@ -11,7 +11,7 @@ public class Field
     public FieldGridCoordinate gridCoordinate { get; }
     private float size;
     private Vector3  offset;
-    public Building building;
+    public BuildingData building;
 
 
     public Field(int x, int z, float size, Vector3 offset)

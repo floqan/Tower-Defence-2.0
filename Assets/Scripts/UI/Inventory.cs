@@ -18,8 +18,10 @@ public class Inventory : MonoBehaviour
         {
             Debug.LogWarning("Achtung, es wurden mehrere Inventare erstellt");
         }
+        resources = new Dictionary<int, Item>();
     }
     #endregion
+
     public event Action<int> OnResourcesChanged;
     public event Action OnMoneyChanged;
 
