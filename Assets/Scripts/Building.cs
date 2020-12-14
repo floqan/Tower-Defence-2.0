@@ -7,12 +7,16 @@ public abstract class Building
     public string Name { get; set; }
     public int PathCost { get; set; }
     public Sprite Preview { get; set; }
-    public GameObject gameObject;
+    public GameObject prefabBuilding;
 
-    public int MoneyCost { get; set; }
+    public int MoneyCost;
     // First Value: ItemId
     // Second Value: Amount
     public List<KeyValuePair<int, int>> ResourcesCost;
+
+    public Building()
+    {
+    }
 
     public Building(int cost)
     {

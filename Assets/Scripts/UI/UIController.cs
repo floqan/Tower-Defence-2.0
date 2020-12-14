@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UIController : MonoBehaviour
 {
+    public GameObject TowerMenu;
+    public GameObject PlantMenu;
+    
     private GameObject TowerPanel;
     private GameObject PlantPanel;
     private GameObject InventoryPanel;
     private GameObject MoneyPanel;
+    private GameObject MerchantPanel;
+
     private Inventory inventory;
     private List<InventorySlot> inventorySlots;
 
@@ -62,5 +68,36 @@ public class UIController : MonoBehaviour
     public void UpdateMoneyDisplay()
     {
         MoneyPanel.GetComponent<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
+    }
+
+    public void PlaceBuiding(Building building)
+    {
+        GameManager.instance.CreateBuilding(building);
+    }
+    internal void OpenTowerMenu()
+    {
+        throw new NotImplementedException("Open tower menu");
+    }
+
+    internal void CloseTowerMenu()
+    {
+        throw new NotImplementedException("Close tower menu");
+    }
+
+    internal void OpenPlantMenu()
+    {
+        throw new NotImplementedException("Open plant menu");
+    }
+    internal void ClosePlantMenu()
+    {
+        throw new NotImplementedException("Close plant menu");
+    }
+    internal void OpenMerchantMenu()
+    {
+        MerchantPanel.SetActive(true);
+    }
+    internal void CloseMerchantMenu()
+    {
+        MerchantPanel.SetActive(false);
     }
 }

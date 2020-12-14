@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-
 public class GameManager : MonoBehaviour
 {
     #region Singelton 
@@ -30,19 +28,25 @@ public class GameManager : MonoBehaviour
     public int level;
     public CameraController cameraController;
     public PlayerController player;
-    public enum State { Idle, PlacingObject };
+    public UIController ui;
+
+    public enum State { Idle, PlacingObject, OpenMerchantMenu, OpenBuildingMenu};
     public State GameState { get; set; }
     public GridComponent grid;
+    public Inventory inventory;
 
     private LevelData levelData;
     private int enemyCounter = 0;
-
+    public float MoneyTime = 10; //TODO Change to private
+    private float moneyTimer;
     private float time = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         GameState = State.Idle;
         grid = GameObject.Find("Grid").GetComponent<GridComponent>();
+        inventory = Inventory.instance;
         OnNewObjectPlaced += grid.RecalculatePathAfterPlacement;
         OnObjectDestroyed += grid.RecalculatePathAfterDestroy;
         levelData = LevelUtility.GetLevelData(level);
@@ -51,21 +55,59 @@ public class GameManager : MonoBehaviour
         SpawnEnemy();
     }
 
-    internal Vector3 GetNearestGridPosition(Vector3 mousePosition) 
-    { 
-        return grid.GetNearestGridPosition(mousePosition);
-    }
-   
-
     // Update is called once per frame
     void Update()
     {
         time += Time.deltaTime;
-        if(time < 500)
+        moneyTimer += Time.deltaTime;
+        if (time < 500)
         {
             time = 0;
             SpawnEnemy();
         }
+
+        if (moneyTimer > MoneyTime)
+        {
+            inventory.IncreaseMoney(10);//TODO Change to Variable
+        }
+    }
+
+    internal Vector3 GetNearestGridPosition(Vector3 mousePosition) 
+    { 
+        return grid.GetNearestGridPosition(mousePosition);
+    }
+
+    internal void OpenTowerMenu()
+    {
+        GameState = State.OpenBuildingMenu; 
+        ui.OpenTowerMenu();
+    }
+    internal void CloseTowerMenu()
+    {
+        GameState = State.Idle;
+        ui.CloseTowerMenu();
+    }
+    internal void OpenPlantMenu()
+    {
+        GameState = State.OpenBuildingMenu;
+        ui.OpenPlantMenu();
+    }
+    internal void ClosePlantMenu()
+    {
+        GameState = State.Idle;
+        ui.ClosePlantMenu();
+    }
+
+    internal void OpenMerchantMenu()
+    {
+        GameState = State.OpenMerchantMenu;
+        ui.OpenMerchantMenu();
+    }
+
+    internal void CloseMerchantMenu()
+    {
+        GameState = State.Idle;
+        ui.CloseMerchantMenu();
     }
 
     private void SpawnEnemy()
@@ -84,6 +126,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void GiveSalary()
+    {
+        //TODO 
+    }
     private void DestoryEnemy(GameObject enemy)
     {
         OnObjectDestroyed -= enemy.GetComponent<AbstractEnemy>().RecalculatePathAfterDestroy;
@@ -94,5 +140,11 @@ public class GameManager : MonoBehaviour
     public List<FieldGridCoordinate> RecalculatePath(FieldGridCoordinate startField)
     {
         return grid.CalculatePath(startField);
+    }
+
+    public void CreateBuilding(Building building)
+    {
+        GameObject buildingObject = building.CreateGameObject(); ;
+
     }
 }
