@@ -3,9 +3,10 @@ using System.Collections;
 using UnityEngine;
 
 //Data Class
+[CreateAssetMenu(fileName = "Items", menuName = "Item")]
 public class Item : DataObject
 {
-    public string Description { get; set; }
-    public int MoneyCost { get; set; }
-    public int AmountStored { get; set; }
+    public string Description;
+    public int MoneyCost;
+    public int AmountStored;
 }

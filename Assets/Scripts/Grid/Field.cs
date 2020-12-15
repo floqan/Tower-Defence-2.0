@@ -28,7 +28,7 @@ public class Field
 
     public int GetPathCost()
     {
-        return IsEnvironment ? int.MaxValue : (building == null) ? 1 : building.PathCost;
+        return IsEnvironment ? int.MaxValue : (building == null) ? 1 : building. pathCost;
     }
 
     public FieldGridCoordinate GetFieldGridCoordinate()

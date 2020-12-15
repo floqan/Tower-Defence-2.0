@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlant
+public interface IPlant : IBuilding
 {
     void Harvest();
     void Grow();

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataObject
+public abstract class DataObject : ScriptableObject
 {
-    public int ObjectId { get; set; }
-    public Sprite Image { get; set; }
-    public string Name { get; set; }
+    public int ObjectId;
+    public Sprite Image;
+    public string Name;
 }

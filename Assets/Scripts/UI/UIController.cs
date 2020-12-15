@@ -61,11 +61,11 @@ public class UIController : MonoBehaviour
     {
         TowerPanel = GameObject.Find("TowerPanel");
         towerSlots = new List<ObjectSlot>();
-        for(int i = 0; i < 10/*TODO*/; i++)
+        for(int i = 0; i < GameManager.instance.GetTowerCount(); i++)
         {
             GameObject slot = Instantiate(prefabBuildingSlot, TowerPanel.transform);
             ObjectSlot towerSlot = slot.GetComponent<ObjectSlot>();
-            towerSlot.InitField(i);
+            //towerSlot.InitField(i);
             towerSlots.Add(towerSlot);
         }
     }
@@ -74,11 +74,11 @@ public class UIController : MonoBehaviour
     {
         PlantPanel = GameObject.Find("PlantPanel");
         plantSlots = new List<ObjectSlot>();
-        for (int i = 0; i < 10/*TODO*/; i++)
+        for (int i = 0; i < GameManager.instance.GetPlantCount(); i++)
         {
             GameObject slot = Instantiate(prefabBuildingSlot, PlantPanel.transform);
             ObjectSlot plantSlot = slot.GetComponent<ObjectSlot>();
-            plantSlot.InitField(i);
+            //plantSlot.InitField(i);
             plantSlots.Add(plantSlot);
         }
     }
@@ -99,7 +99,7 @@ public class UIController : MonoBehaviour
         MoneyPanel.GetComponent<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
     }
 
-    public void PlaceBuiding(Building building)
+    public void PlaceBuiding(Building<BuildingData> building)
     {
         GameManager.instance.CreateBuilding(building);
     }

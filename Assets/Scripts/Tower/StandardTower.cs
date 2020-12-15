@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StandardTower : Building, ITower
+public class StandardTower : AbstractTower
 {
-    public BuildingData Tower { get; set; }
-    BuildingData ITower.Tower { get; set; }
-    float ITower.AttackSpeed { get; set; }
-    float ITower.Radius { get; set; }
-    int ITower.AttackDamage { get; set; }
-    int ITower.HitPoints { get;  set; }
-    Dictionary<int, int> ITower.UpgradeCost { get; set; }
+    
+    public override void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void SetNextTarget()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Upgrade()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override GameObject CreateGameObject()
+    {
+        throw new System.NotImplementedException();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,20 +36,6 @@ public class StandardTower : Building, ITower
     void Update()
     {
         
-    }
-
-    void ITower.Upgrade()
-    {
-        throw new System.NotImplementedException();
-    }
-    void ITower.Attack()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    void ITower.SetNextTarget()
-    {
-        throw new System.NotImplementedException();
     }
 
 }

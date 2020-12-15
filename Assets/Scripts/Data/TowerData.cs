@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public  class TowerData
+[CreateAssetMenu(fileName ="Items", menuName = "Tower")]
+public class TowerData : BuildingData
 {
-    
+    public int AttackDamage;
+    public float AttackSpeed;
+    public float AttackRadius;
+    public int Hitpoints;
+    public Dictionary<int, int> UpgradeCost;
+    /*
     public struct Tower
     {
         int AttackDamage;
@@ -50,4 +56,5 @@ public  class TowerData
         public float AttackSpeed = 9;
         public int Hitpoints = 40;
     }
+    */
 }

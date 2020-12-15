@@ -6,6 +6,8 @@ public class Level1 : LevelData
 {
     public Level1()
     {
+        
+        
         Enemies = new List<KeyValuePair<int, int>>();
         Enemies.Add(new KeyValuePair<int, int>(1, 0));
         //Enemies.Add(new KeyValuePair<int, int>(1, 1));

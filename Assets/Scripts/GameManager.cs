@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    internal int GetTowerCount()
+    {
+        return levelData.Towers.Count;
+    }
+
     internal Vector3 GetNearestGridPosition(Vector3 mousePosition) 
     { 
         return grid.GetNearestGridPosition(mousePosition);
@@ -82,6 +87,12 @@ public class GameManager : MonoBehaviour
         GameState = State.OpenBuildingMenu; 
         ui.OpenTowerMenu();
     }
+
+    internal int GetPlantCount()
+    {
+        return levelData.Plants.Count;
+    }
+
     internal void CloseTowerMenu()
     {
         GameState = State.Idle;
@@ -142,9 +153,10 @@ public class GameManager : MonoBehaviour
         return grid.CalculatePath(startField);
     }
 
-    public void CreateBuilding(Building building)
+    public void CreateBuilding(Building<BuildingData> building)
     {
-        GameObject buildingObject = building.CreateGameObject(); ;
+        GameObject buildingObject = Instantiate(building.gameObject);
+        building.transform.position = Vector3.zero;
 
     }
 }
