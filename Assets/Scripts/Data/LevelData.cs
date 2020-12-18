@@ -13,8 +13,8 @@ public abstract class LevelData
     public List<FieldGridCoordinate> Goals { get; set; }
 
     public List<FieldGridCoordinate> Environment { get; set; }
-    public List<AbstractTower> Towers { get; set; }
-    public List<AbstractPlant> Plants { get; set; }
+    public List<TowerData> Towers { get; set; }
+    public List<PlantData> Plants { get; set; }
 
     internal int GetNumberOfEnemies()
     {

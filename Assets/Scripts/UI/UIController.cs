@@ -17,9 +17,9 @@ public class UIController : MonoBehaviour
     private GameObject MerchantPanel;
 
     private Inventory inventory;
-    private List<ObjectSlot> inventorySlots;
-    private List<ObjectSlot> plantSlots;
-    private List<ObjectSlot> towerSlots;
+    private List<InventorySlot> inventorySlots;
+    private List<BuildingSlot> plantSlots;
+    private List<BuildingSlot> towerSlots;
 
     public GameObject prefabInventorySlot;
     public GameObject prefabBuildingSlot;
@@ -27,7 +27,6 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         InitPlants();
         InitTower();
         ShowTowerPanel();
@@ -45,11 +44,11 @@ public class UIController : MonoBehaviour
         InventoryPanel = GameObject.Find("InventoryPanel");
         inventory = Inventory.instance;
         inventory.OnMoneyChanged += UpdateMoneyDisplay;
-        inventorySlots = new List<ObjectSlot>();
+        inventorySlots = new List<InventorySlot>();
         for(int i = 0; i < inventory.GetNumberOfResources(); i++)
         {
             GameObject slot = Instantiate(prefabInventorySlot, InventoryPanel.transform);
-            ObjectSlot inventorySlot = slot.GetComponent<ObjectSlot>();
+            InventorySlot inventorySlot = slot.GetComponent<InventorySlot>();
             inventorySlot.InitField(inventory.GetItemByItemId(i));
             inventory.OnResourcesChanged += inventorySlot.UpdateItemDisplay;
             
@@ -60,12 +59,14 @@ public class UIController : MonoBehaviour
     private void InitTower()
     {
         TowerPanel = GameObject.Find("TowerPanel");
-        towerSlots = new List<ObjectSlot>();
+        towerSlots = new List<BuildingSlot>();
         for(int i = 0; i < GameManager.instance.GetTowerCount(); i++)
         {
             GameObject slot = Instantiate(prefabBuildingSlot, TowerPanel.transform);
-            ObjectSlot towerSlot = slot.GetComponent<ObjectSlot>();
-            //towerSlot.InitField(i);
+            BuildingSlot towerSlot = slot.GetComponent<BuildingSlot>();
+            Button slotButton = slot.GetComponent<Button>();
+            slotButton.onClick.AddListener(delegate { CreateTower(towerSlot.objectId); });
+            towerSlot.InitTower(GameManager.instance.Towers[i].GetComponent<AbstractTower>().buildingData);
             towerSlots.Add(towerSlot);
         }
     }
@@ -73,12 +74,14 @@ public class UIController : MonoBehaviour
     private void InitPlants()
     {
         PlantPanel = GameObject.Find("PlantPanel");
-        plantSlots = new List<ObjectSlot>();
+        plantSlots = new List<BuildingSlot>();
         for (int i = 0; i < GameManager.instance.GetPlantCount(); i++)
         {
             GameObject slot = Instantiate(prefabBuildingSlot, PlantPanel.transform);
-            ObjectSlot plantSlot = slot.GetComponent<ObjectSlot>();
-            //plantSlot.InitField(i);
+            BuildingSlot plantSlot = slot.GetComponent<BuildingSlot>();
+            Button slotButton = slot.GetComponent<Button>();
+            slotButton.onClick.AddListener(delegate { CreatePlant(plantSlot.objectId); });
+            plantSlot.InitPlant(GameManager.instance.Plants[i].GetComponent<AbstractTower>().buildingData);
             plantSlots.Add(plantSlot);
         }
     }
@@ -99,6 +102,15 @@ public class UIController : MonoBehaviour
         MoneyPanel.GetComponent<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
     }
 
+    void CreateTower(int towerId)
+    {
+
+    }
+
+    void CreatePlant(int plantId)
+    {
+
+    }
     public void PlaceBuiding(Building<BuildingData> building)
     {
         GameManager.instance.CreateBuilding(building);

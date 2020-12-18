@@ -8,4 +8,5 @@ public abstract class AbstractTower : Building<TowerData>, ITower
     public abstract void SetNextTarget();
     public abstract void Upgrade();
     public abstract GameObject CreateGameObject();
+
 }

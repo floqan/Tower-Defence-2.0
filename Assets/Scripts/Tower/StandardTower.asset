@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f933845591dd2df4983182f923825d01, type: 3}
   m_Name: StandardTower
   m_EditorClassIdentifier: 
-  ObjectId: 0
+  ObjectId: 10
   Image: {fileID: 0}
   Name: StandardTower
   pathCost: 5

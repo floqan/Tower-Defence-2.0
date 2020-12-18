@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelUtility
 {
+
     public static void LoadLevel(GridComponent gridComponent, LevelData levelData)
     {
         foreach(FieldGridCoordinate goal in levelData.Goals)

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class StandardTower : AbstractTower
 {
-    
+    public GameObject gunTurret;
+
     public override void Attack()
     {
         throw new System.NotImplementedException();

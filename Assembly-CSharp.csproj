@@ -57,37 +57,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Interface\IPlant.cs" />
+    <Compile Include="Assets\Scripts\Tower\AbstractTower.cs" />
     <Compile Include="Assets\Scripts\Data\Item.cs" />
     <Compile Include="Assets\Scripts\Interface\IEnemy.cs" />
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\Scripts\Data\BuildingData.cs" />
     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
     <Compile Include="Assets\Scripts\Data\DataObject.cs" />
+    <Compile Include="Assets\Scripts\Plant\Carot.cs" />
     <Compile Include="Assets\Scripts\Data\TowerData.cs" />
     <Compile Include="Assets\Scripts\Enemy\AbstractEnemy.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Controller\GameManager.cs" />
     <Compile Include="Assets\Scripts\Tower\StandardTower.cs" />
+    <Compile Include="Assets\Scripts\Data\PlantData.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy1.cs" />
+    <Compile Include="Assets\Scripts\Interface\IBuilding.cs" />
     <Compile Include="Assets\Scripts\Utility\EnemyUtility.cs" />
     <Compile Include="Assets\Scripts\Grid\FieldGridCoordinate.cs" />
     <Compile Include="Assets\Scripts\Interface\ITower.cs" />
-    <Compile Include="Assets\Scripts\UI\ObjectSlot.cs" />
+    <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\Grid\Field.cs" />
     <Compile Include="Assets\Scripts\Grid\GridComponent.cs" />
+    <Compile Include="Assets\Scripts\Plant\AbstractPlant.cs" />
     <Compile Include="Assets\Scripts\Utility\LevelUtility.cs" />
     <Compile Include="Assets\Scripts\Data\Level1.cs" />
     <Compile Include="Assets\Scripts\EventArgs\CoordinateEventArgs.cs" />
-    <Compile Include="Assets\Scripts\Building.cs" />
+    <Compile Include="Assets\Scripts\Data\Building.cs" />
     <Compile Include="Assets\Scripts\Controller\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Controller\CameraController.cs" />
     <Compile Include="Assets\Scripts\UI\Inventory.cs" />
-    <Compile Include="Assets\Scripts\Tower\AbstractTower.cs" />
-    <Compile Include="Assets\Scripts\Plant\AbstractPlant.cs" />
-    <Compile Include="Assets\Scripts\Plant\Carot.cs" />
-    <Compile Include="Assets\Scripts\Data\PlantData.cs" />
-    <Compile Include="Assets\Scripts\Interface\IBuilding.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildingSlot.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
