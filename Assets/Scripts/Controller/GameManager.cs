@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    public const int PLANT_TYPE = 1;
+    public const int TOWER_TYPE = 2;
+
     public enum State { Idle, PlacingObject, OpenMerchantMenu, OpenBuildingMenu };
     public State GameState { get; set; }
 
@@ -36,8 +39,8 @@ public class GameManager : MonoBehaviour
     public CameraController cameraController;
     public PlayerController player;
     public UIController ui;
-    public GridComponent grid;
-    public Inventory inventory;
+    private GridComponent grid;
+    private Inventory inventory;
 
     private LevelData levelData;
     private int enemyCounter = 0;
@@ -181,9 +184,38 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public void CreateBuilding(Building<BuildingData> building)
+    //buildingType: 1 = Plant / 2 = Tower
+    public void CreateBuilding(int buildingId, int buildingType)
     {
-        GameObject buildingObject = Instantiate(building.gameObject);
-        building.transform.position = Vector3.zero;
+        switch (buildingType)
+        {
+            case PLANT_TYPE:
+                foreach(GameObject go in Plants)
+                {
+                    if(go.GetComponent<AbstractPlant>().buildingData.ObjectId == buildingId)
+                    {
+                        player.Selection = Instantiate(go);
+                        GameState = State.PlacingObject;
+                        return;
+                    }
+                }
+                Debug.LogError("Building can not be instantiated. No matching building was found for id" + buildingId);
+                break;
+            case TOWER_TYPE:
+                foreach(GameObject go in Towers)
+                {
+                    if(go.GetComponent<AbstractTower>().buildingData.ObjectId == buildingId)
+                    {
+                        player.Selection = Instantiate(go);
+                        GameState = State.PlacingObject;
+                        return;
+                    }
+                }
+                Debug.LogError("Building can not be instantiated. No matching building was found for id" + buildingId);
+                break;
+            default:
+                Debug.LogError("Building can not be instantiated. No matching type was found for type " + buildingType);
+                break;
+        }        
     }
 }

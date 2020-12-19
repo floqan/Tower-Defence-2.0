@@ -1278,11 +1278,9 @@ MonoBehaviour:
   - {fileID: 6277131591527480498, guid: db17f1e352adce54c901a0bd1e931599, type: 3}
   Plants: []
   level: 1
-  cameraController: {fileID: 0}
+  cameraController: {fileID: 1687258588}
   player: {fileID: 1687258587}
-  ui: {fileID: 0}
-  grid: {fileID: 0}
-  inventory: {fileID: 0}
+  ui: {fileID: 1756880224}
   MoneyTime: 10
 --- !u!4 &1320465822
 Transform:
@@ -1986,7 +1984,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be76e5f14cfee674cb30b491fb72b09b, type: 3}
   m_Name: 
@@ -2499,7 +2497,7 @@ GameObject:
   - component: {fileID: 2010841782}
   - component: {fileID: 2010841781}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

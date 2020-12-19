@@ -30,6 +30,7 @@ public class UIController : MonoBehaviour
         InitPlants();
         InitTower();
         ShowTowerPanel();
+        MoneyPanel = GameObject.Find("MoneyPanel");
         InitInventory();     
     }
 
@@ -54,6 +55,7 @@ public class UIController : MonoBehaviour
             
             inventorySlots.Add(inventorySlot);
         }
+        UpdateMoneyDisplay();
     }
 
     private void InitTower()
@@ -99,22 +101,19 @@ public class UIController : MonoBehaviour
 
     public void UpdateMoneyDisplay()
     {
-        MoneyPanel.GetComponent<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
+        MoneyPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
     }
 
     void CreateTower(int towerId)
     {
-
+        GameManager.instance.CreateBuilding(towerId, GameManager.TOWER_TYPE);
     }
 
     void CreatePlant(int plantId)
     {
-
+        GameManager.instance.CreateBuilding(plantId, GameManager.PLANT_TYPE);
     }
-    public void PlaceBuiding(Building<BuildingData> building)
-    {
-        GameManager.instance.CreateBuilding(building);
-    }
+    
     internal void OpenTowerMenu()
     {
         throw new NotImplementedException("Open tower menu");

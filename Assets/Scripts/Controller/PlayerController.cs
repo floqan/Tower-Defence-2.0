@@ -5,9 +5,12 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    
+    public GameObject Selection { get; set; }
+
     public GameObject Cube;
+
     private GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,24 +20,25 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            gameManager.GameState = GameManager.State.PlacingObject;
-        }
-        else
-        {
-            gameManager.GameState = GameManager.State.Idle;
-        }
-
         if (gameManager.GameState == GameManager.State.PlacingObject)
         {
-            if (!IsMouseOverUI()) { 
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Grid"))) {
+            if (Input.GetMouseButtonUp(1))
+            {
+                Destroy(Selection);
+                gameManager.GameState = GameManager.State.Idle;
+            }
+            else
+            {
+                if (!IsMouseOverUI())
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Grid")))
+                    {
 
-                    Vector3 position = hit.point;
-                    Cube.transform.position = gameManager.GetNearestGridPosition(position);
+                        Vector3 position = hit.point;
+                        Selection.transform.position = gameManager.GetNearestGridPosition(position);
+                    }
                 }
             }
         }
@@ -63,6 +67,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
         if(gameManager.GameState == GameManager.State.OpenMerchantMenu)
         {
             if (Input.GetKeyUp(KeyCode.Escape))

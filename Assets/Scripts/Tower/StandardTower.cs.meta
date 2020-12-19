@@ -4,7 +4,8 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - buildingData: {instanceID: 0}
+  - buildingData: {fileID: 11400000, guid: 9d74d44c5188527448b81cb1f10b1063, type: 2}
+  - gunTurret: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
