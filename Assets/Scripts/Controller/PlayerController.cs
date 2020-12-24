@@ -31,33 +31,42 @@ public class PlayerController : MonoBehaviour
             {
                 if (!IsMouseOverUI())
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Grid")))
+                    if (Input.GetMouseButtonUp(0))
                     {
+                        gameManager.PlaceBuilding(Selection);
+                        Selection = null;
+                        gameManager.GameState = GameManager.State.Idle;
+                    }
+                    else
+                    {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
+                        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Grid")))
+                        {
 
-                        Vector3 position = hit.point;
-                        Selection.transform.position = gameManager.GetNearestGridPosition(position);
+                            Vector3 position = hit.point;
+                            Selection.transform.position = gameManager.GetNearestGridPosition(position);
+                        }
                     }
                 }
             }
         }
+
         if(gameManager.GameState == GameManager.State.Idle || gameManager.GameState == GameManager.State.OpenBuildingMenu)
         {
             if (!IsMouseOverUI() && Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if(Physics.Raycast(ray, out hit))
+                if(Physics.Raycast(ray, out hit)) //Auf Tower/Plants einschränken
                 {
+                    gameManager.CloseAll();
                     switch (hit.transform.tag)
                     {
                         case "Tower":
-                            gameManager.CloseTowerMenu();
                             gameManager.OpenTowerMenu();
                             break;
                         case "Plant":
-                            gameManager.ClosePlantMenu();
                             gameManager.OpenPlantMenu();
                             break;
                         case "Merchant":

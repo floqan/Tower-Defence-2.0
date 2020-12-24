@@ -100,6 +100,13 @@ public class GameManager : MonoBehaviour
         return Plants.Count;
     }
 
+    internal void CloseAll()
+    {
+        GameState = State.Idle;
+        ui.ClosePlantMenu();
+        ui.CloseTowerMenu();
+    }
+
     internal void CloseTowerMenu()
     {
         GameState = State.Idle;
@@ -132,6 +139,7 @@ public class GameManager : MonoBehaviour
     {
         if (enemyCounter < levelData.GetNumberOfEnemies()) {
             GameObject enemyGameObject = EnemyUtility.GetEnemyByID(levelData.Enemies[enemyCounter].Key);
+            enemyGameObject.tag = "Enemy";
             AbstractEnemy enemy = enemyGameObject.GetComponent<AbstractEnemy>();
             OnNewObjectPlaced += enemy.RecalculatePathAfterPlacement;
             OnObjectDestroyed += enemy.RecalculatePathAfterDestroy;
@@ -218,4 +226,12 @@ public class GameManager : MonoBehaviour
                 break;
         }        
     }
+
+    internal void PlaceBuilding(GameObject selection)
+    {
+        CoordinateEventArgs args = new CoordinateEventArgs();
+        args.changedCoordinate = grid.GetNearestField(selection.transform.position).PlaceBuilding(selection);
+        OnNewObjectPlaced(this, args);
+    }
+
 }

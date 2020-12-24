@@ -188,7 +188,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6277131591527480498}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -208,3 +208,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 9d74d44c5188527448b81cb1f10b1063, type: 2}
   gunTurret: {fileID: 941176719853883456}
+  projectile: {fileID: 0}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,4 +40,19 @@ public class Field
     public bool IsLocked() => enemyCounter > 0;
     public void LockField() => enemyCounter++;
     public void UnlockField() => enemyCounter--;
+
+    internal FieldGridCoordinate PlaceBuilding(GameObject selection)
+    {
+        if(selection.GetComponent<AbstractTower>() != null)
+        {
+            building = selection.GetComponent<AbstractTower>().buildingData;
+            return gridCoordinate;
+        }
+        if(selection.GetComponent<AbstractPlant>() != null)
+        {
+            building = selection.GetComponent<AbstractPlant>().buildingData;
+            return gridCoordinate;
+        }
+        return null;
+    }
 }

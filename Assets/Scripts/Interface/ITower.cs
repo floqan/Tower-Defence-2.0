@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ITower : IBuilding
 {
-    void SetNextTarget();
+    void UpdateTarget();
     void Attack();
     void Upgrade();
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class AbstractTower : Building<TowerData>, ITower
 {
+    public abstract Transform target { get; set; }
     public abstract void Attack();
-    public abstract void SetNextTarget();
+    public abstract void UpdateTarget();
     public abstract void Upgrade();
-    public abstract GameObject CreateGameObject();
 
 }
