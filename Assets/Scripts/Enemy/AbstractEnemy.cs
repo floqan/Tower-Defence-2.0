@@ -20,6 +20,7 @@ public abstract class AbstractEnemy : MonoBehaviour
     {
         currentTime = AttackSpeed / 2;
     }
+
     public void RecalculatePathAfterPlacement(object sender, CoordinateEventArgs args)
     {
         if (Path.Any(field => field.Equals(args.changedCoordinate)))
@@ -54,7 +55,6 @@ public abstract class AbstractEnemy : MonoBehaviour
         }
         else
         {
-            //TODO set time = 0, wenn attackmode = false gesetzt wird
             currentTime += Time.deltaTime;
             if (currentTime >= AttackSpeed)
             {
@@ -94,5 +94,22 @@ public abstract class AbstractEnemy : MonoBehaviour
     {
         nextGoal.UnlockField();
         Destroy(gameObject);
+    }
+
+    public void OnDamage(int damage)
+    {
+        HitPoints -= damage;
+        //TODO Add Damage Type
+        //TODO Add Damage Reduction
+        if(HitPoints <= 0)
+        {
+            DropLoot();
+            GameManager.instance.DestoryEnemy(this.gameObject);
+        }
+    }
+
+    public void DropLoot()
+    {
+        //TODO Drop Loot
     }
 }

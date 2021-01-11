@@ -8,6 +8,7 @@ public class StandardTower : AbstractTower
     public GameObject projectile;
     private List<Transform> EnemiesInRange;
     private float time;
+    
 
     public override Transform target { get; set; }
 
@@ -22,7 +23,12 @@ public class StandardTower : AbstractTower
         {
             UpdateTarget();
         }
-        Instantiate(projectile, gunTurret.transform.position, Quaternion.identity);
+        
+        //gunTurret.transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
+        ProjectileController controller = Instantiate(projectile, gunTurret.transform.position, Quaternion.identity).GetComponent<ProjectileController>();
+        controller.projectileDamage = buildingData.AttackDamage;
+        controller.target = target;
+        controller.projectileSpeed = buildingData.ProjectileSpeed;
         throw new System.NotImplementedException();
     }
 
@@ -32,32 +38,33 @@ public class StandardTower : AbstractTower
         {
             target = EnemiesInRange[0];
         }
+        //TODO Add more AttackArts
     }
-
-    public override void Upgrade()
-    {
-        throw new System.NotImplementedException();
-    }
-
 
     // Start is called before the first frame update
     void Start()
     {
+        IsPlacement = true;
         EnemiesInRange = new List<Transform>();
+        SphereCollider collider = gameObject.AddComponent<SphereCollider>();
+        collider.radius = buildingData.AttackRadius;
     }
 
     // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
-        if(time > buildingData.AttackSpeed)
+        //UpdateEnemies();
+         
+        //TODO Wenn kein Gegner in Reichweite wird Angriff aufgeladen und ausgelöst, allerdings wird dann die Attacke wieder auf 0 zurück gesetzt
+        if(target != null || (target == null && time < buildingData.AttackSpeed))
+        {
+            time += Time.deltaTime;
+        }
+
+        if(time > buildingData.AttackSpeed && !IsPlacement)
         {
             time = 0;
             Attack();
-        }
-        if(target != null)
-        {
-            gunTurret.transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
         }
     }
 
@@ -78,5 +85,4 @@ public class StandardTower : AbstractTower
             EnemiesInRange.Remove(collision.transform);
         }
     }
-
 }

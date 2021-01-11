@@ -16,9 +16,9 @@ MonoBehaviour:
   Image: {fileID: 0}
   Name: StandardTower
   pathCost: 10
-  gameObject: {fileID: 0}
   moneyCost: 10
   AttackDamage: 10
   AttackSpeed: 1
-  AttackRadius: 3
+  AttackRadius: 5
+  ProjectileSpeed: 10
   Hitpoints: 300

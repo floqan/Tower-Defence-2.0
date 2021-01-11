@@ -6,5 +6,4 @@ public interface ITower : IBuilding
 {
     void UpdateTarget();
     void Attack();
-    void Upgrade();
 }

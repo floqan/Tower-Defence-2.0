@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
     {
         inventory.IncreaseMoney(10);//TODO Change to Variable
     }
-    private void DestoryEnemy(GameObject enemy)
+    public void DestoryEnemy(GameObject enemy)
     {
         OnObjectDestroyed -= enemy.GetComponent<AbstractEnemy>().RecalculatePathAfterDestroy;
         OnNewObjectPlaced -= enemy.GetComponent<AbstractEnemy>().RecalculatePathAfterPlacement;
@@ -229,6 +229,7 @@ public class GameManager : MonoBehaviour
 
     internal void PlaceBuilding(GameObject selection)
     {
+        selection.GetComponent<Building<BuildingData>>().IsPlacement = false;
         CoordinateEventArgs args = new CoordinateEventArgs();
         args.changedCoordinate = grid.GetNearestField(selection.transform.position).PlaceBuilding(selection);
         OnNewObjectPlaced(this, args);
