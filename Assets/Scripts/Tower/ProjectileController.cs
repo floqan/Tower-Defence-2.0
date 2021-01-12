@@ -17,19 +17,25 @@ public class ProjectileController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, projectileSpeed * Time.deltaTime);
-        transform.LookAt(target);
+        if (target == null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.position, projectileSpeed * Time.deltaTime);
+            transform.LookAt(target);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.transform.tag == "Enemy")
         {
-            if(target ==
-                other.gameObject)
+            if(target.gameObject == other.gameObject)
             {
                 other.GetComponent<AbstractEnemy>().OnDamage(projectileDamage);
-                Destroy(this);
+                Destroy(this.gameObject);
             }
         }
     }

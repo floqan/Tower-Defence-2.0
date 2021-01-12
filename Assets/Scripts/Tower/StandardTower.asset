@@ -18,7 +18,7 @@ MonoBehaviour:
   pathCost: 10
   moneyCost: 10
   AttackDamage: 10
-  AttackSpeed: 1
+  AttackSpeed: 5
   AttackRadius: 5
   ProjectileSpeed: 10
   Hitpoints: 300

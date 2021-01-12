@@ -29,7 +29,7 @@ public class StandardTower : AbstractTower
         controller.projectileDamage = buildingData.AttackDamage;
         controller.target = target;
         controller.projectileSpeed = buildingData.ProjectileSpeed;
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public override void UpdateTarget()
@@ -56,12 +56,12 @@ public class StandardTower : AbstractTower
         //UpdateEnemies();
          
         //TODO Wenn kein Gegner in Reichweite wird Angriff aufgeladen und ausgelöst, allerdings wird dann die Attacke wieder auf 0 zurück gesetzt
-        if(target != null || (target == null && time < buildingData.AttackSpeed))
+        if(target != null || (target == null && time < 1/buildingData.AttackSpeed))
         {
             time += Time.deltaTime;
         }
 
-        if(time > buildingData.AttackSpeed && !IsPlacement)
+        if(time > 1/buildingData.AttackSpeed && !IsPlacement)
         {
             time = 0;
             Attack();

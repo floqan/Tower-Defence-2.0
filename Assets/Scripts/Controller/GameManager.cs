@@ -229,7 +229,7 @@ public class GameManager : MonoBehaviour
 
     internal void PlaceBuilding(GameObject selection)
     {
-        selection.GetComponent<Building<BuildingData>>().IsPlacement = false;
+        selection.GetComponent<Building<TowerData>>().IsPlacement = false;
         CoordinateEventArgs args = new CoordinateEventArgs();
         args.changedCoordinate = grid.GetNearestField(selection.transform.position).PlaceBuilding(selection);
         OnNewObjectPlaced(this, args);
