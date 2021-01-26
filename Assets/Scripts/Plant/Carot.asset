@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c84eb3663469df4d86b29c6b4075399, type: 3}
   m_Name: Carot
   m_EditorClassIdentifier: 
-  ObjectId: 0
-  Image: {fileID: 0}
-  Name: 
-  pathCost: 0
-  gameObject: {fileID: 0}
-  moneyCost: 0
+  ObjectId: 2
+  Image: {fileID: 21300000, guid: f7147475e55741843b1392d142230aa9, type: 3}
+  Name: Karotte
+  ObjectType: 1
+  pathCost: 5
+  moneyCost: 10
+  building: {fileID: 0}
+  GrowTimePerStep: 1
+  Step1: {fileID: 919132149155446097, guid: 9ed429128e556724596ad8c560caa6d7, type: 3}
+  Step2: {fileID: 919132149155446097, guid: 5e96be904587f754aaecbdf3c96a84f0, type: 3}
+  Step3: {fileID: 919132149155446097, guid: df4ad53aca4502a48be221c2d571165e, type: 3}
+  Step4: {fileID: 0}

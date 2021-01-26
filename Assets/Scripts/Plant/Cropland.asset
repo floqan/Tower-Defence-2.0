@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f933845591dd2df4983182f923825d01, type: 3}
-  m_Name: StandardTower
+  m_Script: {fileID: 11500000, guid: 5c84eb3663469df4d86b29c6b4075399, type: 3}
+  m_Name: Cropland
   m_EditorClassIdentifier: 
-  ObjectId: 10
-  Image: {fileID: 0}
-  Name: StandardTower
-  pathCost: 10
+  ObjectId: 1
+  Image: {fileID: 21300000, guid: 8bb21a9c344edc4469d94c711f64360f, type: 3}
+  Name: Feld
+  pathCost: 3
   moneyCost: 10
   building: {fileID: 0}
-  AttackDamage: 10
-  AttackSpeed: 5
-  AttackRadius: 10
-  ProjectileSpeed: 10
-  Hitpoints: 300
+  GrowTimePerStep: 0
+  Step1: {fileID: 0}
+  Step2: {fileID: 0}
+  Step3: {fileID: 0}
+  Step4: {fileID: 0}

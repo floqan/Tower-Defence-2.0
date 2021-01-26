@@ -25,7 +25,7 @@ public abstract class AbstractEnemy : MonoBehaviour
     {
         if (Path.Any(field => field.Equals(args.changedCoordinate)))
         {
-            Path = GameManager.instance.RecalculatePath(nextGoal.gridCoordinate);
+            Path = GameManager.instance.RecalculatePath(nextGoal.GridCoordinate);
         }
     }
 
@@ -33,7 +33,7 @@ public abstract class AbstractEnemy : MonoBehaviour
     {
         if(!Path.Any(field => field.Equals(args.changedCoordinate)))
         {
-            Path = GameManager.instance.RecalculatePath(nextGoal.gridCoordinate);
+            Path = GameManager.instance.RecalculatePath(nextGoal.GridCoordinate);
         }
     }
 

@@ -4,5 +4,9 @@ using UnityEngine;
 
 public interface IBuilding
 {
+    bool IsPlacement { get; set; }
 
+    void SetColorEnabled();
+
+    void SetColorDisabled();
 }

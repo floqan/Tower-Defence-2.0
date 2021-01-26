@@ -62,7 +62,7 @@ public class GridComponent : MonoBehaviour
         {
             if (Spawns[i].Value.Any(field => field.Equals(args.changedCoordinate)))
             {
-                Spawns[i] = new KeyValuePair<Field, List<FieldGridCoordinate>>(Spawns[i].Key, CalculatePath(Spawns[i].Key.gridCoordinate));
+                Spawns[i] = new KeyValuePair<Field, List<FieldGridCoordinate>>(Spawns[i].Key, CalculatePath(Spawns[i].Key.GridCoordinate));
             }
         }
     }
@@ -72,7 +72,7 @@ public class GridComponent : MonoBehaviour
         {
             if (!Spawns[i].Value.Any(field => field.Equals(args.changedCoordinate)))
             {
-                Spawns[i] = new KeyValuePair<Field, List<FieldGridCoordinate>>(Spawns[i].Key, CalculatePath(Spawns[i].Key.gridCoordinate));
+                Spawns[i] = new KeyValuePair<Field, List<FieldGridCoordinate>>(Spawns[i].Key, CalculatePath(Spawns[i].Key.GridCoordinate));
             }
         }
     }
@@ -81,7 +81,7 @@ public class GridComponent : MonoBehaviour
     {
         for (int i = 0; i < Spawns.Count; i++)
         {
-            Spawns[i] = new KeyValuePair<Field, List<FieldGridCoordinate>>(Spawns[i].Key, CalculatePath(Spawns[i].Key.gridCoordinate));
+            Spawns[i] = new KeyValuePair<Field, List<FieldGridCoordinate>>(Spawns[i].Key, CalculatePath(Spawns[i].Key.GridCoordinate));
         }
     }
 

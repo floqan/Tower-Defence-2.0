@@ -66,10 +66,11 @@ public class UIController : MonoBehaviour
         {
             GameObject slot = Instantiate(prefabBuildingSlot, TowerPanel.transform);
             BuildingSlot towerSlot = slot.GetComponent<BuildingSlot>();
-            Button slotButton = slot.GetComponent<Button>();
-            slotButton.onClick.AddListener(delegate { CreateTower(towerSlot.objectId); });
             towerSlot.InitTower(GameManager.instance.Towers[i].GetComponent<AbstractTower>().buildingData);
             towerSlots.Add(towerSlot);
+
+            Button slotButton = slot.GetComponent<Button>();
+            slotButton.onClick.AddListener(delegate { CreateTower(towerSlot.objectId); });
         }
     }
 
@@ -83,7 +84,7 @@ public class UIController : MonoBehaviour
             BuildingSlot plantSlot = slot.GetComponent<BuildingSlot>();
             Button slotButton = slot.GetComponent<Button>();
             slotButton.onClick.AddListener(delegate { CreatePlant(plantSlot.objectId); });
-            plantSlot.InitPlant(GameManager.instance.Plants[i].GetComponent<AbstractTower>().buildingData);
+            plantSlot.InitPlant(GameManager.instance.Plants[i].GetComponent<AbstractPlant>().buildingData);
             plantSlots.Add(plantSlot);
         }
     }

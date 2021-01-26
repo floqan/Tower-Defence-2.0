@@ -34,8 +34,6 @@ public class PlayerController : MonoBehaviour
                     if (Input.GetMouseButtonUp(0))
                     {
                         gameManager.PlaceBuilding(Selection);
-                        Selection = null;
-                        gameManager.GameState = GameManager.State.Idle;
                     }
                     else
                     {
@@ -43,9 +41,18 @@ public class PlayerController : MonoBehaviour
                         RaycastHit hit;
                         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Grid")))
                         {
-
                             Vector3 position = hit.point;
                             Selection.transform.position = gameManager.GetNearestGridPosition(position);
+                            if (gameManager.IsPlacementAllowed(Selection))
+                            {
+                                //Change Color back to normal
+                                Selection.GetComponent<IBuilding>().SetColorEnabled();
+                            }
+                            else
+                            {
+                                //Change Color to light red
+                                Selection.GetComponent<IBuilding>().SetColorDisabled();
+                            }
                         }
                     }
                 }
@@ -60,11 +67,12 @@ public class PlayerController : MonoBehaviour
                 RaycastHit hit;
                 if(Physics.Raycast(ray, out hit)) //Auf Tower/Plants einschränken
                 {
-                    gameManager.CloseAll();
+                    //gameManager.CloseAll();
                     switch (hit.transform.tag)
                     {
                         case "Tower":
-                            gameManager.OpenTowerMenu();
+                            //gameManager.OpenTowerMenu();
+                            hit.transform.gameObject.GetComponent<AbstractTower>().buildingData.AttackSpeed = 50;
                             break;
                         case "Plant":
                             gameManager.OpenPlantMenu();

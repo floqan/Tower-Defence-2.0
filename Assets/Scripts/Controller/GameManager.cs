@@ -198,11 +198,12 @@ public class GameManager : MonoBehaviour
         switch (buildingType)
         {
             case PLANT_TYPE:
-                foreach(GameObject go in Plants)
+                foreach(GameObject plant in Plants)
                 {
-                    if(go.GetComponent<AbstractPlant>().buildingData.ObjectId == buildingId)
+                    if(plant.GetComponent<AbstractPlant>().buildingData.ObjectId == buildingId)
                     {
-                        player.Selection = Instantiate(go);
+                        player.Selection = Instantiate(plant);
+                        player.Selection.GetComponent<AbstractPlant>().buildingData = Instantiate(plant.GetComponent<AbstractPlant>().buildingData);
                         GameState = State.PlacingObject;
                         return;
                     }
@@ -210,11 +211,12 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Building can not be instantiated. No matching building was found for id" + buildingId);
                 break;
             case TOWER_TYPE:
-                foreach(GameObject go in Towers)
+                foreach(GameObject tower in Towers)
                 {
-                    if(go.GetComponent<AbstractTower>().buildingData.ObjectId == buildingId)
+                    if(tower.GetComponent<AbstractTower>().buildingData.ObjectId == buildingId)
                     {
-                        player.Selection = Instantiate(go);
+                        player.Selection = Instantiate(tower);
+                        player.Selection.GetComponent<AbstractTower>().buildingData = Instantiate(tower.GetComponent<AbstractTower>().buildingData);
                         GameState = State.PlacingObject;
                         return;
                     }
@@ -229,10 +231,45 @@ public class GameManager : MonoBehaviour
 
     internal void PlaceBuilding(GameObject selection)
     {
-        selection.GetComponent<Building<TowerData>>().IsPlacement = false;
-        CoordinateEventArgs args = new CoordinateEventArgs();
-        args.changedCoordinate = grid.GetNearestField(selection.transform.position).PlaceBuilding(selection);
-        OnNewObjectPlaced(this, args);
+        if (IsPlacementAllowed(selection)) {
+            selection.GetComponent<IBuilding>().IsPlacement = false;
+            CoordinateEventArgs args = new CoordinateEventArgs
+            {
+                changedCoordinate = grid.GetNearestField(selection.transform.position).PlaceBuilding(selection)
+            };
+            player.Selection = null;
+            GameState = State.Idle;
+            OnNewObjectPlaced(this, args);     
+        }
     }
 
+    internal bool IsPlacementAllowed(GameObject selection)
+    {
+        Field field = grid.GetNearestField(selection.transform.position);
+        if(field.IsEnvironment || field.IsGoal || field.IsLocked())
+        {
+            return false;
+        }
+        foreach(KeyValuePair<Field, List<FieldGridCoordinate>> spawn in grid.Spawns)
+        {
+            if (spawn.Key.Equals(field))
+            {
+                return false;
+            }
+        }
+
+        if((selection.GetComponent<AbstractTower>() != null || selection.GetComponent<Cropland>() != null) && field.building == null)
+        {
+            return true;
+        }
+        if(selection.GetComponent<AbstractPlant>() != null)
+        {
+            if(field.building == null || field.building.ObjectType != DataObject.CROPLAND_TYPE)
+            {
+                return false;
+            }
+            return field.building.building.GetComponent<Cropland>().plant == null;
+        }
+        throw new MissingComponentException("No building component found");
+    }
 }

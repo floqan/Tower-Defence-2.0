@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Items", menuName = "Tower")]
+[CreateAssetMenu(fileName ="Tower", menuName = "Items/Tower")]
 public class TowerData : BuildingData
 {
     public int AttackDamage;

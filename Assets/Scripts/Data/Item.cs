@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 //Data Class
-[CreateAssetMenu(fileName = "Items", menuName = "Item")]
+[CreateAssetMenu(fileName = "Item", menuName = "Items/Item")]
 public class Item : DataObject
 {
     public string Description;

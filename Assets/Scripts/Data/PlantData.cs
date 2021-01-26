@@ -1,19 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Items", menuName = "Plant")]
+[CreateAssetMenu(fileName = "Plant", menuName = "Items/Plant")]
 public class PlantData : BuildingData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int GrowTimePerStep;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject Step1;
+    public GameObject Step2;
+    public GameObject Step3;
+    public GameObject Step4;
 }

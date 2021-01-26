@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Field 
+public class Field
 {
     private int enemyCounter;
     public bool IsEnvironment { get; set; }
     public bool IsGoal { get; set; }
     
-    public FieldGridCoordinate gridCoordinate { get; }
+    public FieldGridCoordinate GridCoordinate { get; }
     private float size;
     private Vector3  offset;
     public BuildingData building;
@@ -17,24 +17,24 @@ public class Field
 
     public Field(int x, int z, float size, Vector3 offset)
     {
-        gridCoordinate = new FieldGridCoordinate(x, z);
+        GridCoordinate = new FieldGridCoordinate(x, z);
         this.size = size;
         this.offset = offset;
     }
 
     public Vector3 GetMiddlePoint()
     {
-        return new Vector3(gridCoordinate.X * size + 0.5f * size, 0, gridCoordinate.Z * size + 0.5f * size) + offset; 
+        return new Vector3(GridCoordinate.X * size + 0.5f * size, 0, GridCoordinate.Z * size + 0.5f * size) + offset; 
     }
 
     public int GetPathCost()
     {
-        return IsEnvironment ? int.MaxValue : (building == null) ? 1 : building. pathCost;
+        return IsEnvironment ? int.MaxValue : (building == null) ? 1 : building.pathCost;
     }
 
     public FieldGridCoordinate GetFieldGridCoordinate()
     {
-        return gridCoordinate;
+        return GridCoordinate;
     }
 
     public bool IsLocked() => enemyCounter > 0;
@@ -43,15 +43,23 @@ public class Field
 
     internal FieldGridCoordinate PlaceBuilding(GameObject selection)
     {
+        
         if(selection.GetComponent<AbstractTower>() != null)
         {
             building = selection.GetComponent<AbstractTower>().buildingData;
-            return gridCoordinate;
+            return GridCoordinate;
         }
-        if(selection.GetComponent<AbstractPlant>() != null)
+        if (selection.GetComponent<Cropland>() != null)
         {
-            building = selection.GetComponent<AbstractPlant>().buildingData;
-            return gridCoordinate;
+            building = selection.GetComponent<Cropland>().buildingData;
+        }
+        else
+        {
+            if (selection.GetComponent<AbstractPlant>() != null)
+            {
+                building = selection.GetComponent<AbstractPlant>().buildingData;
+                return GridCoordinate;
+            }
         }
         return null;
     }

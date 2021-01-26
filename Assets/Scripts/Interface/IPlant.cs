@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IPlant : IBuilding
 {
     void Harvest();
-    void Grow();
+    void Grow() ;
 }

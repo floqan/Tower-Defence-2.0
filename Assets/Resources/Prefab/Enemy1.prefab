@@ -114,7 +114,7 @@ MonoBehaviour:
   MovementSpeed: 5
   AttackSpeed: 5
   AttackDamage: 5
-  HitPoints: 20
+  HitPoints: 2000
 --- !u!54 &-8118006086163296463
 Rigidbody:
   m_ObjectHideFlags: 0

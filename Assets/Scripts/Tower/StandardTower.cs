@@ -6,7 +6,6 @@ public class StandardTower : AbstractTower
 {
     public GameObject gunTurret;
     public GameObject projectile;
-    private List<Transform> EnemiesInRange;
     private float time;
     
 
@@ -46,8 +45,7 @@ public class StandardTower : AbstractTower
     {
         IsPlacement = true;
         EnemiesInRange = new List<Transform>();
-        SphereCollider collider = gameObject.AddComponent<SphereCollider>();
-        collider.radius = buildingData.AttackRadius;
+        enemyDetector.SetRadius(buildingData.AttackRadius);
     }
 
     // Update is called once per frame
@@ -65,24 +63,6 @@ public class StandardTower : AbstractTower
         {
             time = 0;
             Attack();
-        }
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if(collision.transform.tag == "Enemy")
-        {
-            Debug.Log("One more Enemy");
-            EnemiesInRange.Add(collision.transform);
-        }
-    }
-
-    private void OnTriggerExit(Collider collision)
-    {
-        if(collision.transform.tag == "Enemy")
-        {
-            Debug.Log("One Enemy less");
-            EnemiesInRange.Remove(collision.transform);
         }
     }
 }
