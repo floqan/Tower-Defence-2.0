@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlantData : BuildingData
 {
     public int GrowTimePerStep;
+    public int YieldsPerHarvest;
 
     public GameObject Step1;
     public GameObject Step2;

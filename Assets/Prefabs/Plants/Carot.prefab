@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 957067267}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,9 +40,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3314178959454952438}
   - component: {fileID: 534360564}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Carot
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

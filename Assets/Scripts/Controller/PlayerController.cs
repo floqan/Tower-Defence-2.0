@@ -38,8 +38,7 @@ public class PlayerController : MonoBehaviour
                     else
                     {
                         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        RaycastHit hit;
-                        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Grid")))
+                        if (Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, LayerMask.GetMask("Grid")))
                         {
                             Vector3 position = hit.point;
                             Selection.transform.position = gameManager.GetNearestGridPosition(position);
@@ -90,6 +89,19 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Escape))
             {
                 gameManager.CloseMerchantMenu();
+            }
+        }
+
+        if (gameManager.GameState == GameManager.State.Idle)
+        {
+            if (!IsMouseOverUI() && Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Plants")))
+                {
+                    hit.transform.GetComponent<AbstractPlant>().Harvest();
+                }
             }
         }
     }

@@ -258,9 +258,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if((selection.GetComponent<AbstractTower>() != null || selection.GetComponent<Cropland>() != null) && field.building == null)
+        if(selection.GetComponent<AbstractTower>() != null || selection.GetComponent<Cropland>() != null)
         {
-            return true;
+            return field.building == null;
         }
         if(selection.GetComponent<AbstractPlant>() != null)
         {
@@ -268,7 +268,7 @@ public class GameManager : MonoBehaviour
             {
                 return false;
             }
-            return field.building.building.GetComponent<Cropland>().plant == null;
+            return field.building.building.GetComponent<Cropland>().Plant == null;
         }
         throw new MissingComponentException("No building component found");
     }

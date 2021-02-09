@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6207762312953070661}
   - component: {fileID: 8197274418543653007}
   - component: {fileID: -4235506533426563110}
+  - component: {fileID: 8406817993311822008}
   m_Layer: 0
   m_Name: Cropland
-  m_TagString: Untagged
+  m_TagString: Cropland
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,3 +97,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 8b25a1b5b9614d3479db862b11b5b877, type: 2}
   Model: {fileID: 7692831884310434138}
+--- !u!64 &8406817993311822008
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692831884310434138}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1839183611176288107, guid: 4f210341a1629e8429efe9a9b40a556d, type: 3}

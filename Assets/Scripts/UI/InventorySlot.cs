@@ -6,9 +6,12 @@ using TMPro;
 
 public class InventorySlot : MonoBehaviour
 {
-    public int objectId;
+    public int ObjectId { get; set; }
     public Image image;
     public TextMeshProUGUI itemDisplay;
+    public Image warningYellow;
+    public Image warningRed;
+
 
     public void InitField(DataObject o)
     {
@@ -16,20 +19,37 @@ public class InventorySlot : MonoBehaviour
         {
             image.sprite = o.Image;
         }
-        objectId = o.ObjectId;
+        ObjectId = o.ObjectId;
         UpdateItemDisplay();
     }
 
     private void UpdateItemDisplay()
     {
-        UpdateItemDisplay(objectId);
+        UpdateItemDisplay(ObjectId);
     }
 
     public void UpdateItemDisplay(int itemId)
     {
-            if (itemId == objectId)
+        if (itemId == ObjectId)
+        {
+            int numberOfItems = Inventory.instance.GetValueByItemId(itemId);
+            itemDisplay.text = numberOfItems.ToString();
+            int maxNumber = Inventory.instance.GetMaxValueByItemId(itemId);
+            if (maxNumber == numberOfItems)
             {
-                itemDisplay.text = Inventory.instance.GetValueByItemId(itemId).ToString();
+                warningYellow.gameObject.SetActive(false);
+                warningRed.gameObject.SetActive(true);
             }
+            else if(maxNumber * 0.7 < numberOfItems)
+            {
+                warningRed.gameObject.SetActive(false);
+                warningYellow.gameObject.SetActive(true);
+            }
+            else
+            {
+                warningRed.gameObject.SetActive(false);
+                warningYellow.gameObject.SetActive(false);
+            }
+        }
     }
 }

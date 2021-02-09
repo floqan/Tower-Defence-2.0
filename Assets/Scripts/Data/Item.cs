@@ -8,5 +8,5 @@ public class Item : DataObject
 {
     public string Description;
     public int MoneyCost;
-    public int AmountStored;
+    public int AmountStored { get; set; }
 }

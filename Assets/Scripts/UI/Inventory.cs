@@ -1,4 +1,4 @@
-﻿
+﻿using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    
+    private int MAX_VALUE_PLANTS = 50; //1
+    private int MAX_VALUE_ELECTRONIC_PARTS = 20; //2
     #region Singleton
     public static Inventory instance;
     private void Awake()
@@ -20,26 +21,68 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning("Achtung, es wurden mehrere Inventare erstellt");
         }
         resources = new Dictionary<int, Item>();
+        foreach (Item item in items)
+        {
+            if (resources.ContainsKey(item.ObjectId))
+            {
+                throw new ItemException("Item with itemId " + item.ObjectId + " was added twice to the Inventory");
+            }
+            resources.Add(item.ObjectId, item);
+        }
     }
     #endregion
 
     public event Action<int> OnResourcesChanged;
     public event Action OnMoneyChanged;
 
+    public List<Item> items;
+    
     private Dictionary<int, Item> resources;
     private int Money;
-    public int MaxValue { get; set; }
+    public int MaxValue;
 
     public int GetNumberOfResources()
     {
         return resources.Count;
     }
+
+    public int GetMaxValueByItemId(int itemId)
+    {
+        switch (GetItemByItemId(itemId).ObjectType)
+        {
+            case 1:
+                return MAX_VALUE_PLANTS;
+            case 2:
+                return MAX_VALUE_ELECTRONIC_PARTS;
+            default: throw new ItemException("No ObjectType " + GetItemByItemId(itemId).ObjectType + " for Item with itemId " + itemId + " found." );
+        }
+    }
+
+    public int GetMaxValueByObjectId(int objectId)
+    {
+        switch (objectId)
+        {
+            case 1:
+                return MAX_VALUE_PLANTS;
+            case 2:
+                return MAX_VALUE_ELECTRONIC_PARTS;
+            default: throw new ItemException("No ObjectType for objectId " + objectId + " found.");
+        }
+    }
+    public List<int> GetIndexes() => resources.Keys.ToList();
     public void IncreaseResource(int itemId, int value)
     {
-        resources[itemId].AmountStored += value;
-        if(resources[itemId].AmountStored > MaxValue)
+        if (!resources.ContainsKey(itemId))
         {
-            resources[itemId].AmountStored = MaxValue;
+            throw new KeyNotFoundException("Can not find ItemKey " + itemId + " in Inventory Dictionary");
+            //Debug.LogError("Can not find ItemKey " + itemId + " in Inventory Dictionary");
+            //return;
+        }
+        resources[itemId].AmountStored += value;
+        if(resources[itemId].AmountStored > GetMaxValueByItemId(itemId))
+        {
+            //TODO Add MaxValueReached Warning / Maybe highlight the Max Amount of this objectType
+            resources[itemId].AmountStored = GetMaxValueByItemId(itemId);
         }
         OnResourcesChanged(itemId);
     }
@@ -55,6 +98,17 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public void SetMaxValue(int objectId, int newMaxValue)
+    {
+        switch (objectId)
+        {
+            case 1: MAX_VALUE_PLANTS = newMaxValue;
+                break;
+            case 2: MAX_VALUE_ELECTRONIC_PARTS = newMaxValue;
+                break;
+            default: throw new ItemException("No objectType for id " + objectId + " found");
+        }
+    }
     public void IncreaseMoney(int value)
     {
         Money += value;

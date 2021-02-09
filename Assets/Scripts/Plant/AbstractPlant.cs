@@ -4,10 +4,13 @@ using UnityEngine;
 
 public abstract class AbstractPlant : Building<PlantData>, IPlant
 {
+    protected const int MAX_STATE = 3;
+
     protected int currentState;
     protected float currentTime;
     public GameObject Model;
     public bool IsPlacement { get; set; }
+    public Cropland cropland { get; set; }
 
     private void Start()
     {
@@ -17,6 +20,7 @@ public abstract class AbstractPlant : Building<PlantData>, IPlant
         }
         currentState = 1;
         currentTime = 0;
+        gameObject.layer = LayerMask.NameToLayer("Plants");
     }
 
     private void Update()
@@ -30,19 +34,13 @@ public abstract class AbstractPlant : Building<PlantData>, IPlant
 
     public abstract void Grow();
 
-    public void Harvest()
-    {
-        if(currentState != 4)
-        {
-            return;
-        }
+    public abstract void Harvest();
 
-    }
     public abstract GameObject CreateGameObject();
 
     public virtual void SetColorEnabled()
     {
-        Model.GetComponent<Renderer>().material.color = Color.clear;
+        Model.GetComponent<Renderer>().material.color = Color.green;
     }
 
     public virtual void SetColorDisabled()

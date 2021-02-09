@@ -18,6 +18,7 @@ public abstract class AbstractTower : Building<TowerData>, ITower
         buildingData.ObjectType = DataObject.TOWER_TYPE;
         IsPlacement = true;
         gameObject.tag = "Tower";
+        buildingData.building = gameObject;
     }
 
     public void AddEnemyInRange(Transform enemy)

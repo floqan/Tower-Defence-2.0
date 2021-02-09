@@ -43,24 +43,30 @@ public class Field
 
     internal FieldGridCoordinate PlaceBuilding(GameObject selection)
     {
-        
+        BuildingData buildingData = null;
         if(selection.GetComponent<AbstractTower>() != null)
         {
-            building = selection.GetComponent<AbstractTower>().buildingData;
-            return GridCoordinate;
+            buildingData = selection.GetComponent<AbstractTower>().buildingData;
         }
         if (selection.GetComponent<Cropland>() != null)
         {
-            building = selection.GetComponent<Cropland>().buildingData;
+            buildingData = selection.GetComponent<Cropland>().buildingData;
         }
         else
         {
             if (selection.GetComponent<AbstractPlant>() != null)
             {
-                building = selection.GetComponent<AbstractPlant>().buildingData;
-                return GridCoordinate;
+                building.building.GetComponent<Cropland>().SetPlant(selection);
             }
         }
-        return null;
+        if (buildingData != null)
+        {
+            building = buildingData;
+            return GridCoordinate;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

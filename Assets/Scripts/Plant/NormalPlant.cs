@@ -3,21 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NormalPlant : AbstractPlant
-{
+{ 
+
+
     private void Awake()
     {
         buildingData.ObjectType = DataObject.PLANT_TYPE;
         IsPlacement = true;
         gameObject.tag = "Plant";
+        gameObject.layer = LayerMask.NameToLayer("Plants");
+        buildingData.building = gameObject;
     }
 
     public override GameObject CreateGameObject()
     {
         throw new System.NotImplementedException();
     }
+
+    public override void Harvest()
+    {
+        Debug.Log("Try To Harvest");
+        if (currentState != MAX_STATE)
+        {
+            return;
+        }
+        //Play Animation
+        Inventory.instance.IncreaseResource(buildingData.ObjectId, buildingData.YieldsPerHarvest);
+        
+        Debug.Log("Harvest");
+        Destroy(gameObject);
+    }
     public override void Grow()
     {
-        if (currentTime < buildingData.GrowTimePerStep && currentState < 4)
+        if (currentTime < buildingData.GrowTimePerStep && currentState < MAX_STATE)
         {
             currentTime += Time.deltaTime;
             if (currentTime > buildingData.GrowTimePerStep)
@@ -28,14 +46,16 @@ public class NormalPlant : AbstractPlant
                     case (1):
                         Model = Instantiate(buildingData.Step2, gameObject.transform);
                         currentState = 2;
+                        currentTime = 0;
                         break;
                     case (2):
                         Model = Instantiate(buildingData.Step3, gameObject.transform);
                         currentState = 3;
+                        currentTime = 0;
                         break;
-                    case (3):
-                        Model = Instantiate(buildingData.Step4, gameObject.transform);
-                        currentState = 4;
+                    case (MAX_STATE):/*
+                        Add some Feedback. Maybe sparkles or some sign
+                        */
                         break;
                 }
             }

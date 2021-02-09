@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Cropland : AbstractPlant
 {
-    public AbstractPlant plant { get; set; }
+    public AbstractPlant Plant { get; set; }
 
     private void Awake()
     {
         buildingData.ObjectType = DataObject.CROPLAND_TYPE;
         IsPlacement = false;
         gameObject.tag = "Cropland";
+        buildingData.building = gameObject;
     }
 
     public override GameObject CreateGameObject()
@@ -18,17 +19,29 @@ public class Cropland : AbstractPlant
         throw new System.NotImplementedException();
     }
 
-    public override void Grow()
+    public override void Grow(){}
+    public override void Harvest()
     {
-
+        if(Plant != null)
+        {
+            Plant.GetComponent<NormalPlant>().Harvest();
+        }
     }
     public override void SetColorEnabled()
     {
-        gameObject.GetComponent<Renderer>().material.color = Color.clear;
+        gameObject.GetComponent<Renderer>().material.color = Color.green;
     }
 
     public override void SetColorDisabled()
     {
         gameObject.GetComponent<Renderer>().material.color = Color.red;
+    }
+
+    public void SetPlant(GameObject plantObject)
+    {
+        Plant = plantObject.GetComponent<AbstractPlant>();
+        plantObject.transform.SetParent(gameObject.transform);
+        plantObject.GetComponent<AbstractPlant>().cropland = this;
+
     }
 }
