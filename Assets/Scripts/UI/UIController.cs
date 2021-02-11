@@ -16,6 +16,7 @@ public class UIController : MonoBehaviour
     private GameObject MoneyPanel;
     private GameObject MaxValuePlantsPanel;
     private GameObject MaxValueElectronicPartsPanel;
+    private GameObject MaxValueMechanicalPartsPanel;
     private GameObject MerchantPanel;
 
     private Inventory inventory;
@@ -35,6 +36,7 @@ public class UIController : MonoBehaviour
         MoneyPanel = GameObject.Find("MoneyPanel");
         MaxValuePlantsPanel = GameObject.Find("MaxPlantsPanel");
         MaxValueElectronicPartsPanel = GameObject.Find("MaxElectronicPartsPanel");
+        MaxValueMechanicalPartsPanel = GameObject.Find("MaxMechanicalPartsPanel");
         InitInventory();     
     }
 
@@ -54,9 +56,7 @@ public class UIController : MonoBehaviour
             
             inventorySlots.Add(inventorySlot);
         }
-        UpdateMoneyDisplay();
-        UpdateMaxPlantsDisplay();
-        UpdateMaxElectronicPartsDisplay();
+        UpdatePanels();
     }
 
     private void InitTower()
@@ -101,6 +101,14 @@ public class UIController : MonoBehaviour
         PlantPanel.SetActive(true);
     }
 
+    public void UpdatePanels()
+    {
+        UpdateMoneyDisplay();
+        UpdateMaxPlantsDisplay();
+        UpdateMaxElectronicPartsDisplay();
+        UpdateMaxMechanicalPartsDisplay();
+    }
+
     public void UpdateMoneyDisplay()
     {
         MoneyPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
@@ -112,6 +120,11 @@ public class UIController : MonoBehaviour
     public void UpdateMaxElectronicPartsDisplay()
     {
         MaxValueElectronicPartsPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMaxValueByObjectId(2).ToString();
+    }
+
+    public void UpdateMaxMechanicalPartsDisplay()
+    {
+        MaxValueMechanicalPartsPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMaxValueByObjectId(3).ToString();
     }
 
     void CreateTower(int towerId)
