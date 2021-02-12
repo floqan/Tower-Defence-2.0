@@ -17,8 +17,9 @@ public class StandardTower : AbstractTower
         {
             return;
         }
+        time = 0;
 
-        if(target == null)
+        if (target == null)
         {
             UpdateTarget();
         }
@@ -52,7 +53,7 @@ public class StandardTower : AbstractTower
     void Update()
     {
         //UpdateEnemies();
-         
+
         //TODO Wenn kein Gegner in Reichweite wird Angriff aufgeladen und ausgelöst, allerdings wird dann die Attacke wieder auf 0 zurück gesetzt
         if(target != null || (target == null && time < 1/buildingData.AttackSpeed))
         {
@@ -61,7 +62,11 @@ public class StandardTower : AbstractTower
 
         if(time > 1/buildingData.AttackSpeed && !IsPlacement)
         {
-            time = 0;
+            
+            foreach (Transform enemy in EnemiesInRange)
+            {
+                if (!enemy) EnemiesInRange.Remove(enemy);
+            }
             Attack();
         }
     }

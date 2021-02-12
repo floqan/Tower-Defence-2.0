@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Enemy1 : AbstractEnemy
 {    
     // Start is called before the first frame update
