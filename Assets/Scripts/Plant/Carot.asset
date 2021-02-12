@@ -19,8 +19,7 @@ MonoBehaviour:
   pathCost: 5
   moneyCost: 10
   building: {fileID: 0}
-  GrowTimePerStep: 2
-  YieldsPerHarvest: 5
+  GrowTimePerStep: 1
   Step1: {fileID: 919132149155446097, guid: 9ed429128e556724596ad8c560caa6d7, type: 3}
   Step2: {fileID: 919132149155446097, guid: 5e96be904587f754aaecbdf3c96a84f0, type: 3}
   Step3: {fileID: 919132149155446097, guid: df4ad53aca4502a48be221c2d571165e, type: 3}

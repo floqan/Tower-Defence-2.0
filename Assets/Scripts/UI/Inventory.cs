@@ -8,7 +8,6 @@ public class Inventory : MonoBehaviour
 {
     private int MAX_VALUE_PLANTS = 50; //1
     private int MAX_VALUE_ELECTRONIC_PARTS = 20; //2
-    private int MAX_VALUE_MECHANICAL_PARTS = 20; //3
     #region Singleton
     public static Inventory instance;
     private void Awake()
@@ -49,12 +48,13 @@ public class Inventory : MonoBehaviour
 
     public int GetMaxValueByItemId(int itemId)
     {
-        try {
-            return GetMaxValueByObjectId(GetItemByItemId(itemId).ObjectType);
-        }
-        catch(ItemException)
+        switch (GetItemByItemId(itemId).ObjectType)
         {
-            throw new ItemException("No ObjectType " + GetItemByItemId(itemId).ObjectType + " for Item with itemId " + itemId + " found." );
+            case 1:
+                return MAX_VALUE_PLANTS;
+            case 2:
+                return MAX_VALUE_ELECTRONIC_PARTS;
+            default: throw new ItemException("No ObjectType " + GetItemByItemId(itemId).ObjectType + " for Item with itemId " + itemId + " found." );
         }
     }
 
@@ -66,8 +66,6 @@ public class Inventory : MonoBehaviour
                 return MAX_VALUE_PLANTS;
             case 2:
                 return MAX_VALUE_ELECTRONIC_PARTS;
-            case 3:
-                return MAX_VALUE_MECHANICAL_PARTS;
             default: throw new ItemException("No ObjectType for objectId " + objectId + " found.");
         }
     }

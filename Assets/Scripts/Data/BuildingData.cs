@@ -7,9 +7,8 @@ public abstract class BuildingData : DataObject
     public int pathCost;
     public int moneyCost;
     public GameObject building;
-
+    
     // First Value: ItemId
     // Second Value: Amount
-    [SerializeField]
     public List<KeyValuePair<int, int>> ResourcesCost;
 }

@@ -14,6 +14,8 @@ public class UIController : MonoBehaviour
     private GameObject PlantPanel;
     private GameObject InventoryPanel;
     private GameObject MoneyPanel;
+    private GameObject MaxValuePlantsPanel;
+    private GameObject MaxValueElectronicPartsPanel;
     private GameObject MerchantPanel;
 
     private Inventory inventory;
@@ -31,13 +33,9 @@ public class UIController : MonoBehaviour
         InitTower();
         ShowTowerPanel();
         MoneyPanel = GameObject.Find("MoneyPanel");
+        MaxValuePlantsPanel = GameObject.Find("MaxPlantsPanel");
+        MaxValueElectronicPartsPanel = GameObject.Find("MaxElectronicPartsPanel");
         InitInventory();     
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void InitInventory()
@@ -46,16 +44,19 @@ public class UIController : MonoBehaviour
         inventory = Inventory.instance;
         inventory.OnMoneyChanged += UpdateMoneyDisplay;
         inventorySlots = new List<InventorySlot>();
+        List<int> indexes = inventory.GetIndexes(); 
         for(int i = 0; i < inventory.GetNumberOfResources(); i++)
         {
             GameObject slot = Instantiate(prefabInventorySlot, InventoryPanel.transform);
             InventorySlot inventorySlot = slot.GetComponent<InventorySlot>();
-            inventorySlot.InitField(inventory.GetItemByItemId(i));
+            inventorySlot.InitField(inventory.GetItemByItemId(indexes[i]));
             inventory.OnResourcesChanged += inventorySlot.UpdateItemDisplay;
             
             inventorySlots.Add(inventorySlot);
         }
         UpdateMoneyDisplay();
+        UpdateMaxPlantsDisplay();
+        UpdateMaxElectronicPartsDisplay();
     }
 
     private void InitTower()
@@ -66,10 +67,11 @@ public class UIController : MonoBehaviour
         {
             GameObject slot = Instantiate(prefabBuildingSlot, TowerPanel.transform);
             BuildingSlot towerSlot = slot.GetComponent<BuildingSlot>();
-            Button slotButton = slot.GetComponent<Button>();
-            slotButton.onClick.AddListener(delegate { CreateTower(towerSlot.objectId); });
             towerSlot.InitTower(GameManager.instance.Towers[i].GetComponent<AbstractTower>().buildingData);
             towerSlots.Add(towerSlot);
+
+            Button slotButton = slot.GetComponent<Button>();
+            slotButton.onClick.AddListener(delegate { CreateTower(towerSlot.objectId); });
         }
     }
 
@@ -83,7 +85,7 @@ public class UIController : MonoBehaviour
             BuildingSlot plantSlot = slot.GetComponent<BuildingSlot>();
             Button slotButton = slot.GetComponent<Button>();
             slotButton.onClick.AddListener(delegate { CreatePlant(plantSlot.objectId); });
-            plantSlot.InitPlant(GameManager.instance.Plants[i].GetComponent<AbstractTower>().buildingData);
+            plantSlot.InitPlant(GameManager.instance.Plants[i].GetComponent<AbstractPlant>().buildingData);
             plantSlots.Add(plantSlot);
         }
     }
@@ -102,6 +104,14 @@ public class UIController : MonoBehaviour
     public void UpdateMoneyDisplay()
     {
         MoneyPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
+    }
+    public void UpdateMaxPlantsDisplay()
+    {
+        MaxValuePlantsPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMaxValueByObjectId(1).ToString();
+    }
+    public void UpdateMaxElectronicPartsDisplay()
+    {
+        MaxValueElectronicPartsPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMaxValueByObjectId(2).ToString();
     }
 
     void CreateTower(int towerId)
