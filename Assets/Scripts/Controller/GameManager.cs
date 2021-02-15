@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class GameManager : MonoBehaviour
@@ -195,6 +194,10 @@ public class GameManager : MonoBehaviour
     //buildingType: 1 = Plant / 2 = Tower
     public void CreateBuilding(int buildingId, int buildingType)
     {
+        if (GameState != State.Idle)
+        {
+            return;
+        }
         switch (buildingType)
         {
             case PLANT_TYPE:
