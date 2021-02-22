@@ -15,6 +15,6 @@ MonoBehaviour:
   ObjectId: 0
   Image: {fileID: 21300000, guid: 47d2e3a26c77e744ab16c9ef156d7a80, type: 3}
   Name: Coin
-  ObjectType: 0
+  ObjectType: -1
   Description: A coin
   MoneyCost: 1

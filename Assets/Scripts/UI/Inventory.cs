@@ -6,9 +6,21 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    private int MAX_VALUE_MONEY = 300;
     private int MAX_VALUE_PLANTS = 50; //1
     private int MAX_VALUE_ELECTRONIC_PARTS = 20; //2
     private int MAX_VALUE_MECHANICAL_PARTS = 20; //3
+    public static int Salary = 10;
+    private int StoredMoney;
+
+    public event Action<int> OnResourcesChanged;
+    public event Action OnMoneyChanged;
+
+    public List<Item> items;
+    
+    private Dictionary<int, Item> resources;
+
+
     #region Singleton
     public static Inventory instance;
     private void Awake()
@@ -28,19 +40,10 @@ public class Inventory : MonoBehaviour
             {
                 throw new ItemException("Item with itemId " + item.ObjectId + " was added twice to the Inventory");
             }
-            resources.Add(item.ObjectId, item);
+            resources.Add(item.ObjectId, Instantiate(item));
         }
     }
     #endregion
-
-    public event Action<int> OnResourcesChanged;
-    public event Action OnMoneyChanged;
-
-    public List<Item> items;
-    
-    private Dictionary<int, Item> resources;
-    private int Money;
-    public int MaxValue;
 
     public int GetNumberOfResources()
     {
@@ -62,6 +65,8 @@ public class Inventory : MonoBehaviour
     {
         switch (objectId)
         {
+            case -1:
+                return MAX_VALUE_MONEY;
             case 1:
                 return MAX_VALUE_PLANTS;
             case 2:
@@ -104,28 +109,32 @@ public class Inventory : MonoBehaviour
     {
         switch (objectId)
         {
+            case -1: MAX_VALUE_MONEY = newMaxValue;
+                break;
             case 1: MAX_VALUE_PLANTS = newMaxValue;
                 break;
             case 2: MAX_VALUE_ELECTRONIC_PARTS = newMaxValue;
+                break;
+            case 3: MAX_VALUE_MECHANICAL_PARTS = newMaxValue;
                 break;
             default: throw new ItemException("No objectType for id " + objectId + " found");
         }
     }
     public void IncreaseMoney(int value)
     {
-        Money += value;
-        if(Money > 999)
+        StoredMoney += value;
+        if(StoredMoney > MAX_VALUE_MONEY)
         {
-            Money = 999;
+            StoredMoney = MAX_VALUE_MONEY;
         }
         OnMoneyChanged();
     }
 
-    public bool DecreaseMone(int value)
+    public bool DecreaseMoney(int value)
     {
-        if(Money >= value)
+        if(GetItemByItemId(0).AmountStored >= value)
         {
-            Money -= value;
+            GetItemByItemId(0).AmountStored -= value;
             OnMoneyChanged();
             return true;
         }
@@ -144,6 +153,11 @@ public class Inventory : MonoBehaviour
 
     public int GetMoney()
     {
-        return Money;
+        return StoredMoney;
+    }
+
+    public Sprite GetMoneyImage()
+    {
+        return Resources.Load<Sprite>("Sprites/coin_gold_pnp");
     }
 }

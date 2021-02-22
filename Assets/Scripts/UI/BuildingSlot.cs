@@ -43,7 +43,7 @@ public class BuildingSlot : MonoBehaviour
         {
             GameObject slot = Instantiate(RequirmentSlotPrefab, RequirementsPanel);
             slot.GetComponentInChildren<TextMeshProUGUI>().text = money.ToString();
-            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetItemByItemId(0).Image;
+            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetMoneyImage();
         }
         
         foreach(KeyValuePair<int,int> pair in GameManager.instance.GetPlantById(objectId).ResourcesCost)
@@ -61,7 +61,7 @@ public class BuildingSlot : MonoBehaviour
         {
             GameObject slot = Instantiate(RequirmentSlotPrefab, RequirementsPanel);
             slot.GetComponentInChildren<TextMeshProUGUI>().text = money.ToString();
-            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetItemByItemId(0).Image;
+            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetMoneyImage();
         }
 
         foreach (KeyValuePair<int, int> pair in GameManager.instance.GetTowerById(objectId).ResourcesCost)

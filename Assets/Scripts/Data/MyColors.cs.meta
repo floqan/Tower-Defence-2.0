@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 207da137ecbd90a44b324e8d5ca337ab
+guid: bcea3ff2af0e1ad46babf5451073c5bc
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - prefabMerchantSlot: {fileID: 7835937406058082281, guid: 1d84cf80ec23c5f43852b36752bbee2d, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -238,7 +238,7 @@ MonoBehaviour:
   image: {fileID: 5048173269230867885}
   buildingNameDisplay: {fileID: 7932987322883774977}
   RequirementsPanel: {fileID: 2725826856980392506}
-  RequirmentSlotPrefab: {fileID: 6402522662165533927, guid: e063e15908205ea47a8cf56873aa2ba6, type: 3}
+  RequirmentSlotPrefab: {fileID: 2884049917707335779, guid: f266d721190248d43b8cf40d4a040b46, type: 3}
 --- !u!1 &4460303211570092706
 GameObject:
   m_ObjectHideFlags: 0

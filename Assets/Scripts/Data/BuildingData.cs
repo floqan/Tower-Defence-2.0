@@ -11,5 +11,5 @@ public abstract class BuildingData : DataObject
     // First Value: ItemId
     // Second Value: Amount
     [SerializeField]
-    public List<KeyValuePair<int, int>> ResourcesCost;
+    public List<KeyValuePair<int, int>> ResourcesCost = new List<KeyValuePair<int, int>>(); //Find solution
 }

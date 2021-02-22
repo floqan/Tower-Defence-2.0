@@ -23,27 +23,28 @@ public class GameManager : MonoBehaviour
 
     public const int PLANT_TYPE = 1;
     public const int TOWER_TYPE = 2;
+    public State GameState { get; set; }
 
     public enum State { Idle, PlacingObject, OpenMerchantMenu, OpenBuildingMenu };
-    public State GameState { get; set; }
 
     public static event EventHandler<CoordinateEventArgs> OnNewObjectPlaced;
     public static event EventHandler<CoordinateEventArgs> OnObjectDestroyed;
 
+    public int level;
+
     public List<GameObject> Towers;
     public List<GameObject> Plants;
-
-    public int level;
 
     public CameraController cameraController;
     public PlayerController player;
     public UIController ui;
+
     private GridComponent grid;
     private Inventory inventory;
 
     private LevelData levelData;
     private int enemyCounter = 0;
-    public float MoneyTime = 10; //TODO Change to private
+    public float MoneyTime = 2; //TODO Change to private
     private float moneyTimer;
     private float time = 0;
 
@@ -153,7 +154,8 @@ public class GameManager : MonoBehaviour
 
     private void GiveSalary()
     {
-        inventory.IncreaseMoney(10);//TODO Change to Variable
+        inventory.IncreaseMoney(Inventory.Salary);//TODO Change to Variable
+        moneyTimer = 0;
     }
     public void DestoryEnemy(GameObject enemy)
     {

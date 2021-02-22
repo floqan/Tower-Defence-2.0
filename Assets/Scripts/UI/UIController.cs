@@ -14,6 +14,9 @@ public class UIController : MonoBehaviour
     private GameObject PlantPanel;
     private GameObject InventoryPanel;
     private GameObject MoneyPanel;
+    private GameObject MaxValuePlantsPanel;
+    private GameObject MaxValueElectronicPartsPanel;
+    private GameObject MaxValueMechanicPartsPanel;
     private GameObject MerchantPanel;
 
     private Inventory inventory;
@@ -30,14 +33,9 @@ public class UIController : MonoBehaviour
         InitPlants();
         InitTower();
         ShowTowerPanel();
-        MoneyPanel = GameObject.Find("MoneyPanel");
-        InitInventory();     
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        MerchantPanel = GameObject.Find("MerchantPanel");
+        InitInventory();
+        CloseMerchantMenu();
     }
 
     private void InitInventory()
@@ -46,30 +44,51 @@ public class UIController : MonoBehaviour
         inventory = Inventory.instance;
         inventory.OnMoneyChanged += UpdateMoneyDisplay;
         inventorySlots = new List<InventorySlot>();
-        for(int i = 0; i < inventory.GetNumberOfResources(); i++)
+        List<int> indexes = inventory.GetIndexes();
+        for (int i = 0; i < inventory.GetNumberOfResources(); i++)
         {
+            if (inventory.GetItemByItemId(indexes[i]).ObjectId == 0) continue; //Dont instantiate inventory slot for money
+
             GameObject slot = Instantiate(prefabInventorySlot, InventoryPanel.transform);
             InventorySlot inventorySlot = slot.GetComponent<InventorySlot>();
-            inventorySlot.InitField(inventory.GetItemByItemId(i));
+            inventorySlot.InitField(inventory.GetItemByItemId(indexes[i]));
             inventory.OnResourcesChanged += inventorySlot.UpdateItemDisplay;
-            
             inventorySlots.Add(inventorySlot);
         }
+
+        MoneyPanel = GameObject.Find("MoneyPanel");
+
+        MaxValuePlantsPanel = GameObject.Find("MaxPlantsPanel");
+        MaxValuePlantsPanel.GetComponent<Image>().color = MyColors.Background_UI_Plants;
+        MaxValueElectronicPartsPanel = GameObject.Find("MaxElectronicPartsPanel");
+        MaxValueElectronicPartsPanel.GetComponent<Image>().color = MyColors.Background_UI_Electronic_Parts;
+        MaxValueMechanicPartsPanel = GameObject.Find("MaxMechanicPartsPanel");
+        MaxValueMechanicPartsPanel.GetComponent<Image>().color = MyColors.Background_UI_Mechanic_Parts;
+
+        UpdateDisplays();
+    }
+
+    private void UpdateDisplays()
+    {
         UpdateMoneyDisplay();
+        UpdateMaxPlantsDisplay();
+        UpdateMaxElectronicPartsDisplay();
+        UpdateMaxMechanicPartsDisplay();
     }
 
     private void InitTower()
     {
         TowerPanel = GameObject.Find("TowerPanel");
         towerSlots = new List<BuildingSlot>();
-        for(int i = 0; i < GameManager.instance.GetTowerCount(); i++)
+        for (int i = 0; i < GameManager.instance.GetTowerCount(); i++)
         {
             GameObject slot = Instantiate(prefabBuildingSlot, TowerPanel.transform);
             BuildingSlot towerSlot = slot.GetComponent<BuildingSlot>();
-            Button slotButton = slot.GetComponent<Button>();
-            slotButton.onClick.AddListener(delegate { CreateTower(towerSlot.objectId); });
             towerSlot.InitTower(GameManager.instance.Towers[i].GetComponent<AbstractTower>().buildingData);
             towerSlots.Add(towerSlot);
+
+            Button slotButton = slot.GetComponent<Button>();
+            slotButton.onClick.AddListener(delegate { CreateTower(towerSlot.objectId); });
         }
     }
 
@@ -83,7 +102,7 @@ public class UIController : MonoBehaviour
             BuildingSlot plantSlot = slot.GetComponent<BuildingSlot>();
             Button slotButton = slot.GetComponent<Button>();
             slotButton.onClick.AddListener(delegate { CreatePlant(plantSlot.objectId); });
-            plantSlot.InitPlant(GameManager.instance.Plants[i].GetComponent<AbstractTower>().buildingData);
+            plantSlot.InitPlant(GameManager.instance.Plants[i].GetComponent<AbstractPlant>().buildingData);
             plantSlots.Add(plantSlot);
         }
     }
@@ -103,7 +122,19 @@ public class UIController : MonoBehaviour
     {
         MoneyPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMoney().ToString();
     }
+    public void UpdateMaxPlantsDisplay()
+    {
+        MaxValuePlantsPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMaxValueByObjectId(1).ToString();
+    }
+    public void UpdateMaxElectronicPartsDisplay()
+    {
+        MaxValueElectronicPartsPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMaxValueByObjectId(2).ToString();
+    }
+    public void UpdateMaxMechanicPartsDisplay()
+    {
+        MaxValueMechanicPartsPanel.GetComponentInChildren<TextMeshProUGUI>().text = inventory.GetMaxValueByObjectId(3).ToString();
 
+    }
     void CreateTower(int towerId)
     {
         GameManager.instance.CreateBuilding(towerId, GameManager.TOWER_TYPE);
@@ -121,6 +152,10 @@ public class UIController : MonoBehaviour
 
     internal void CloseTowerMenu()
     {
+        if(TowerMenu != null)
+        {
+            TowerMenu.SetActive(false);
+        }
         throw new NotImplementedException("Close tower menu");
     }
 
@@ -130,6 +165,10 @@ public class UIController : MonoBehaviour
     }
     internal void ClosePlantMenu()
     {
+        if(PlantMenu != null)
+        {
+            PlantMenu.SetActive(false);
+        }
         throw new NotImplementedException("Close plant menu");
     }
     internal void OpenMerchantMenu()

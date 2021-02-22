@@ -119,7 +119,7 @@ namespace UnityTemplateProjects
 #if ENABLE_LEGACY_INPUT_MANAGER
 
             // Exit Sample  
-            if (Input.GetKey(KeyCode.Escape))
+            if (Input.GetKey(KeyCode.Escape) && Input.GetKey(KeyCode.LeftShift))
             {
                 Application.Quit();
 				#if UNITY_EDITOR

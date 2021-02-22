@@ -20,6 +20,7 @@ public class InventorySlot : MonoBehaviour
             image.sprite = o.Image;
         }
         ObjectId = o.ObjectId;
+        gameObject.GetComponent<Image>().color = MyColors.GetBackgroundColorByObjectType(Inventory.instance.GetItemByItemId(ObjectId).ObjectType);
         UpdateItemDisplay();
     }
 

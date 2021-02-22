@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
         if(gameManager.GameState == GameManager.State.OpenMerchantMenu)
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (Input.GetKeyUp(KeyCode.Escape) || (Input.GetMouseButtonUp(0) && !IsMouseOverUI()))
             {
                 gameManager.CloseMerchantMenu();
             }
