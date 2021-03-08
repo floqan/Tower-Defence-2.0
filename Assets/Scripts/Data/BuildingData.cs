@@ -11,5 +11,12 @@ public abstract class BuildingData : DataObject
     // First Value: ItemId
     // Second Value: Amount
     [SerializeField]
-    public List<KeyValuePair<int, int>> ResourcesCost = new List<KeyValuePair<int, int>>(); //Find solution
+    public List<Resource> ResourcesCost;// = new List<KeyValuePair<int, int>>(); // TODO Find solution
+
+    [System.Serializable]
+    public class Resource
+    {
+        public int itemId;
+        public int itemAmount;
+    }
 }

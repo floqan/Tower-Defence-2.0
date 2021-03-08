@@ -10,7 +10,7 @@ public abstract class AbstractPlant : Building<PlantData>, IPlant
     protected float currentTime;
     public GameObject Model;
     public bool IsPlacement { get; set; }
-    public Cropland cropland { get; set; }
+    public Cropland Cropland { get; set; }
 
     private void Start()
     {
@@ -20,7 +20,7 @@ public abstract class AbstractPlant : Building<PlantData>, IPlant
         }
         currentState = 1;
         currentTime = 0;
-        gameObject.layer = LayerMask.NameToLayer("Plants");
+        gameObject.layer = LayerMask.NameToLayer("Plant");
     }
 
     private void Update()

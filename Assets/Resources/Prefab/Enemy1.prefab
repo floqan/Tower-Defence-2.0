@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3556965123760297528}
   - component: {fileID: 8874910767642558797}
   - component: {fileID: -8118006086163296463}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,8 @@ MonoBehaviour:
   MovementSpeed: 5
   AttackSpeed: 5
   AttackDamage: 5
-  HitPoints: 2000
+  HitPoints: 20
+  lootCoins: 5
 --- !u!54 &-8118006086163296463
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -143,7 +144,7 @@ GameObject:
   - component: {fileID: 2167225765392448964}
   - component: {fileID: 2940315548520645084}
   - component: {fileID: 4031432369815910662}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 public class GameManager : MonoBehaviour
 {
     #region Singelton 
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
         LevelUtility.LoadLevel(grid, levelData);
         grid.CalculatePath();
         SpawnEnemy();
+        CheckUniqueBuildingIds();
     }
 
     // Update is called once per frame
@@ -76,6 +78,42 @@ public class GameManager : MonoBehaviour
         if (moneyTimer > MoneyTime)
         {
             GiveSalary();
+        }
+    }
+
+    private void CheckUniqueBuildingIds()
+    {
+        List<int> plantIds = new List<int>();
+        List<int> towerIds = new List<int>();
+        
+        foreach(GameObject plant in Plants)
+        {
+            plantIds.Add(plant.GetComponent<AbstractPlant>().buildingData.ObjectId);
+        }
+        foreach(GameObject tower in Towers)
+        {
+            towerIds.Add(tower.GetComponent<AbstractTower>().buildingData.ObjectId);
+        }
+
+        var doubleTowers = towerIds.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+        if(doubleTowers.Count > 0)
+        {
+            throw new BuildingException("Tower with same ID found " + doubleTowers[0]);
+        }
+
+        var doublePlants = plantIds.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+        if (doublePlants.Count > 0)
+        {
+            throw new BuildingException("Plant with same ID found " + doublePlants[0]);
+        }
+
+        for (int i = 0; i < plantIds.Count; i++)
+        {
+            for(int j = i; j < towerIds.Count; j++)
+            {
+                if(plantIds[i] == towerIds[j])
+                    throw new BuildingException("Tower and Plant with same ID found " + plantIds[i]);
+            }
         }
     }
 
@@ -234,9 +272,49 @@ public class GameManager : MonoBehaviour
         }        
     }
 
+    internal int GetBuildingID(GameObject building)
+    {
+        if(building.GetComponent<AbstractPlant>() != null)
+        {
+            return building.GetComponent<AbstractPlant>().buildingData.ObjectId;
+        }
+        if(building.GetComponent<AbstractTower>() != null)
+        {
+            return building.GetComponent<AbstractTower>().buildingData.ObjectId;
+        }
+        throw new BuildingException("Given GameObject is not a building");
+    }
+
+    internal BuildingData GetBuildingData(int buildingId)
+    {
+        foreach (GameObject plant in Plants)
+        {
+            if(plant.GetComponent<AbstractPlant>().buildingData.ObjectId == buildingId)
+            {
+                return plant.GetComponent<AbstractPlant>().buildingData;
+            }
+        }
+
+        foreach (GameObject tower in Towers)
+        {
+            if(tower.GetComponent<AbstractTower>().buildingData.ObjectId == buildingId)
+            {
+                return tower.GetComponent<AbstractTower>().buildingData;
+            }
+        }
+        throw new BuildingException("No Building found with ID " + buildingId);
+    }
+
     internal void PlaceBuilding(GameObject selection)
     {
         if (IsPlacementAllowed(selection)) {
+            // TODO Reduce stored Ressource
+            BuildingData data = GetBuildingData(GetBuildingID(selection));
+            inventory.DecreaseMoney(data.moneyCost);
+            foreach(BuildingData.Resource resource in data.ResourcesCost)
+            {
+                inventory.DecreaseResource(resource.itemId, resource.itemAmount);
+            }
             selection.GetComponent<IBuilding>().IsPlacement = false;
             CoordinateEventArgs args = new CoordinateEventArgs
             {
@@ -255,6 +333,7 @@ public class GameManager : MonoBehaviour
         {
             return false;
         }
+
         foreach(KeyValuePair<Field, List<FieldGridCoordinate>> spawn in grid.Spawns)
         {
             if (spawn.Key.Equals(field))
@@ -276,5 +355,16 @@ public class GameManager : MonoBehaviour
             return field.building.building.GetComponent<Cropland>().Plant == null;
         }
         throw new MissingComponentException("No building component found");
+    }
+
+    internal bool CheckResources(int buildingId)
+    {
+        BuildingData data = GetBuildingData(buildingId);
+        if (!inventory.CheckMoney(data.moneyCost)) return false;
+        foreach(BuildingData.Resource resource in data.ResourcesCost)
+        {
+            if (!inventory.CheckResource(resource.itemId, resource.itemAmount)) return false;
+        }
+        return true;
     }
 }

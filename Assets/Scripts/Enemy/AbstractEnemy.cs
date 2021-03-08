@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -15,6 +16,10 @@ public abstract class AbstractEnemy : MonoBehaviour
     private float currentTime;
     public int AttackDamage;
     public int HitPoints;
+    //Loot
+    public int lootCoins;
+    // Key itemId Value amount of dropped loot
+    protected Dictionary<int, int> lootItems;
 
     private void Awake()
     {
@@ -77,7 +82,7 @@ public abstract class AbstractEnemy : MonoBehaviour
         }
         lastGoal = nextGoal;
         // Set new nextGoal
-        nextGoal = grid.grid[Path[0].X, Path[0].Z];
+        nextGoal = grid.Grid[Path[0].X, Path[0].Z];
         nextGoal.LockField();
         Path.RemoveAt(0);
     }
@@ -110,6 +115,33 @@ public abstract class AbstractEnemy : MonoBehaviour
 
     public void DropLoot()
     {
-        //TODO Drop Loot
+        //Drop Coins
+        for(int i = 0; i < lootCoins; i++)
+        {
+            
+            GameObject coin = Instantiate(Resources.Load<GameObject>("Prefab/Items/Coin"),transform.position,Quaternion.identity);
+            coin.GetComponent<ItemController>().ItemId = -1;
+            coin.GetComponent<Rigidbody>().AddForce(GetRandomDirection(100), ForceMode.Impulse);
+        }
+
+        foreach (int itemId in lootItems.Keys)
+        {
+            for (int i = 0; i < lootItems[itemId]; i++) {
+                Item item = Inventory.instance.GetItemByItemId(itemId);
+                if (Random.Range(0, 101) < item.dropChance)
+                {
+                    GameObject itemObject = Instantiate<GameObject>(item.itemModel);
+                    itemObject.GetComponent<ItemController>().ItemId = itemId;
+                    itemObject.GetComponent<Rigidbody>().AddForce(GetRandomDirection(100), ForceMode.Impulse);
+                } 
+            }
+        }
+    }
+
+    private Vector3 GetRandomDirection(int force)
+    {
+        float directionX = Random.Range(-100f, 100f);
+        float directionZ = Random.Range(-100f, 100f);
+        return new Vector3(directionX, force, directionZ);
     }
 }

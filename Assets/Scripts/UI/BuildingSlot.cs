@@ -46,11 +46,11 @@ public class BuildingSlot : MonoBehaviour
             slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetMoneyImage();
         }
         
-        foreach(KeyValuePair<int,int> pair in GameManager.instance.GetPlantById(objectId).ResourcesCost)
+        foreach(BuildingData.Resource resource in GameManager.instance.GetPlantById(objectId).ResourcesCost)
         {
             GameObject slot = Instantiate(RequirmentSlotPrefab, RequirementsPanel);
-            slot.GetComponentInChildren<TextMeshProUGUI>().text = pair.Value.ToString();
-            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetItemByItemId(pair.Key).Image;
+            slot.GetComponentInChildren<TextMeshProUGUI>().text = resource.itemAmount.ToString();
+            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetItemByItemId(resource.itemId).Image;
         }
 
     }
@@ -64,11 +64,11 @@ public class BuildingSlot : MonoBehaviour
             slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetMoneyImage();
         }
 
-        foreach (KeyValuePair<int, int> pair in GameManager.instance.GetTowerById(objectId).ResourcesCost)
+        foreach (BuildingData.Resource resource in GameManager.instance.GetTowerById(objectId).ResourcesCost)
         {
             GameObject slot = Instantiate(RequirmentSlotPrefab, RequirementsPanel);
-            slot.GetComponentInChildren<TextMeshProUGUI>().text = pair.Value.ToString();
-            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetItemByItemId(pair.Key).Image;
+            slot.GetComponentInChildren<TextMeshProUGUI>().text = resource.itemAmount.ToString();
+            slot.GetComponentInChildren<Image>().sprite = Inventory.instance.GetItemByItemId(resource.itemId).Image;
         }
 
     }

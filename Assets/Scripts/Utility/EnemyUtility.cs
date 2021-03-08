@@ -7,7 +7,7 @@ public class EnemyUtility
     
     public static GameObject GetEnemyByID(int EnemyId)
     {
-        GameObject enemy = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/Enemy" + EnemyId), Vector3.zero, Quaternion.identity);
+        GameObject enemy = Object.Instantiate(Resources.Load<GameObject>("Prefab/Enemy" + EnemyId), Vector3.zero, Quaternion.identity);
         return enemy;
     }
 }

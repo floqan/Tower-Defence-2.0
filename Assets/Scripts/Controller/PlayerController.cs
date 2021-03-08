@@ -63,8 +63,7 @@ public class PlayerController : MonoBehaviour
             if (!IsMouseOverUI() && Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if(Physics.Raycast(ray, out hit)) //Auf Tower/Plants einschränken
+                if (Physics.Raycast(ray, out RaycastHit hit)) //Auf Tower/Plants einschränken
                 {
                     //gameManager.CloseAll();
                     switch (hit.transform.tag)
@@ -97,8 +96,7 @@ public class PlayerController : MonoBehaviour
             if (!IsMouseOverUI() && Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Plants")))
+                if (Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, LayerMask.GetMask("Plant")))
                 {
                     hit.transform.GetComponent<AbstractPlant>().Harvest();
                 }

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public float projectileSpeed { get; set; }
-    public Transform target { get; set; }
+    public float ProjectileSpeed { get; set; }
+    public Transform Target { get; set; }
 
-    public int projectileDamage { get; set; }
+    public int ProjectileDamage { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,24 +18,24 @@ public class ProjectileController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target == null)
+        if (Target == null)
         {
             Destroy(gameObject);
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, projectileSpeed * Time.deltaTime);
-            transform.LookAt(target);
+            transform.position = Vector3.MoveTowards(transform.position, Target.position, ProjectileSpeed * Time.deltaTime);
+            transform.LookAt(Target);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.tag == "Enemy")
+        if(other.transform.CompareTag("Enemy"))
         {
-            if(target.gameObject == other.gameObject)
+            if(Target.gameObject == other.gameObject)
             {
-                other.GetComponent<AbstractEnemy>().OnDamage(projectileDamage);
+                other.GetComponent<AbstractEnemy>().OnDamage(ProjectileDamage);
                 Destroy(this.gameObject);
             }
         }

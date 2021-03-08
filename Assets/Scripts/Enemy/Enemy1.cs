@@ -8,7 +8,8 @@ public class Enemy1 : AbstractEnemy
     // Start is called before the first frame update
     void Start()
     {
-        
+        lootItems = new Dictionary<int, int>();
+        lootItems.Add(31, 3);
     }
 
     // Update is called once per frame

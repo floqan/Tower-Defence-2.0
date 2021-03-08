@@ -8,5 +8,7 @@ public class Item : DataObject
 {
     public string Description;
     public int MoneyCost;
+    public int dropChance;
+    public GameObject itemModel;
     public int AmountStored { get; set; }
 }

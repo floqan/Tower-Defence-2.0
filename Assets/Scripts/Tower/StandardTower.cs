@@ -7,39 +7,7 @@ public class StandardTower : AbstractTower
     public GameObject gunTurret;
     public GameObject projectile;
     private float time;
-    
-
-    public override Transform target { get; set; }
-
-    public override void Attack()
-    {
-        if(EnemiesInRange.Count == 0)
-        {
-            return;
-        }
-        time = 0;
-
-        if (target == null)
-        {
-            UpdateTarget();
-        }
-        
-        //gunTurret.transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
-        ProjectileController controller = Instantiate(projectile, gunTurret.transform.position, Quaternion.identity).GetComponent<ProjectileController>();
-        controller.projectileDamage = buildingData.AttackDamage;
-        controller.target = target;
-        controller.projectileSpeed = buildingData.ProjectileSpeed;
-        //throw new System.NotImplementedException();
-    }
-
-    public override void UpdateTarget()
-    {
-        if (EnemiesInRange.Count > 0)
-        {
-            target = EnemiesInRange[0];
-        }
-        //TODO Add more AttackArts
-    }
+    public override Transform Target { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -53,9 +21,7 @@ public class StandardTower : AbstractTower
     void Update()
     {
         //UpdateEnemies();
-
-        //TODO Wenn kein Gegner in Reichweite wird Angriff aufgeladen und ausgelöst, allerdings wird dann die Attacke wieder auf 0 zurück gesetzt
-        if(target != null || (target == null && time < 1/buildingData.AttackSpeed))
+        if(Target != null || (Target == null && time < 1/buildingData.AttackSpeed))
         {
             time += Time.deltaTime;
         }
@@ -63,11 +29,40 @@ public class StandardTower : AbstractTower
         if(time > 1/buildingData.AttackSpeed && !IsPlacement)
         {
             
-            foreach (Transform enemy in EnemiesInRange)
+            foreach (Transform enemy in EnemiesInRange.ToArray())
             {
                 if (!enemy) EnemiesInRange.Remove(enemy);
             }
             Attack();
         }
+    }
+
+    public override void Attack()
+    {
+        if (EnemiesInRange.Count == 0)
+        {
+            return;
+        }
+        time = 0;
+
+        if (Target == null)
+        {
+            UpdateTarget();
+        }
+
+        //gunTurret.transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
+        ProjectileController controller = Instantiate(projectile, gunTurret.transform.position, Quaternion.identity).GetComponent<ProjectileController>();
+        controller.ProjectileDamage = buildingData.AttackDamage;
+        controller.Target = Target;
+        controller.ProjectileSpeed = buildingData.ProjectileSpeed;
+    }
+
+    public override void UpdateTarget()
+    {
+        if (EnemiesInRange.Count > 0)
+        {
+            Target = EnemiesInRange[0];
+        }
+        //TODO Add more AttackArts
     }
 }

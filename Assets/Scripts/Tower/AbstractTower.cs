@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class AbstractTower : Building<TowerData>, ITower
 {
     public EnemyDetector enemyDetector;
-    public abstract Transform target { get; set; }
+    public abstract Transform Target { get; set; }
     public bool IsPlacement { get; set; }
 
     public abstract void Attack();

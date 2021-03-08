@@ -42,6 +42,8 @@ public class Inventory : MonoBehaviour
             }
             resources.Add(item.ObjectId, Instantiate(item));
         }
+
+        StoredMoney = 20;
     }
     #endregion
 
@@ -132,9 +134,9 @@ public class Inventory : MonoBehaviour
 
     public bool DecreaseMoney(int value)
     {
-        if(GetItemByItemId(0).AmountStored >= value)
+        if(StoredMoney >= value)
         {
-            GetItemByItemId(0).AmountStored -= value;
+            StoredMoney -= value;
             OnMoneyChanged();
             return true;
         }
@@ -151,6 +153,11 @@ public class Inventory : MonoBehaviour
         return resources[itemId];
     }
 
+    public GameObject GetItemModelByItemId(int itemId)
+    {
+        return resources[itemId].itemModel;
+    }
+
     public int GetMoney()
     {
         return StoredMoney;
@@ -159,5 +166,15 @@ public class Inventory : MonoBehaviour
     public Sprite GetMoneyImage()
     {
         return Resources.Load<Sprite>("Sprites/coin_gold_pnp");
+    }
+
+    internal bool CheckResource(int itemId, int itemAmount)
+    {
+        return resources[itemId].AmountStored >= itemAmount;
+    }
+
+    internal bool CheckMoney(int moneyAmount)
+    {
+        return StoredMoney >= moneyAmount;
     }
 }

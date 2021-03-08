@@ -9,10 +9,11 @@ public class GridComponent : MonoBehaviour
     public float FieldSize;
     public int x;
     public int z;
+    public bool showGrid;
 
     private Vector3 offset;
     public List<KeyValuePair<Field, List<FieldGridCoordinate>>> Spawns { get; set; }
-    public Field[,] grid { get; set; }
+    public Field[,] Grid { get; set; }
 
     // Start is called before the first frame update
     void Awake()
@@ -21,37 +22,34 @@ public class GridComponent : MonoBehaviour
         InitGrid();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(144f / 256f, 238f / 256f, 144f / 256f, 0.5f);
-        offset = transform.position;
-        //Draw horizontal lines
-        for (int i = 0; i <= x; i++)
+        if (showGrid)
         {
-            Gizmos.DrawLine(offset + new Vector3(FieldSize * i, 0, 0), offset + new Vector3(FieldSize * i, 0, FieldSize * z));
-        }
-        //Draw vertical lines
-        for (int i = 0; i <= z; i++)
-        {
-            Gizmos.DrawLine(offset + new Vector3(0, 0, FieldSize * i), offset + new Vector3(FieldSize * x, 0, FieldSize * i));
+            Gizmos.color = new Color(144f / 256f, 238f / 256f, 144f / 256f, 0.5f);
+            offset = transform.position;
+            //Draw horizontal lines
+            for (int i = 0; i <= x; i++)
+            {
+                Gizmos.DrawLine(offset + new Vector3(FieldSize * i, 0, 0), offset + new Vector3(FieldSize * i, 0, FieldSize * z));
+            }
+            //Draw vertical lines
+            for (int i = 0; i <= z; i++)
+            {
+                Gizmos.DrawLine(offset + new Vector3(0, 0, FieldSize * i), offset + new Vector3(FieldSize * x, 0, FieldSize * i));
+            }
         }
     }
 
     private void InitGrid()
     {
         Spawns = new List<KeyValuePair<Field, List<FieldGridCoordinate>>>();
-        grid = new Field[x, z];
+        Grid = new Field[x, z];
         for (int i = 0; i < x; i++)
         {
             for (int j = 0; j < z; j++)
             {
-                grid[i, j] = new Field(i, j, FieldSize, offset);
+                Grid[i, j] = new Field(i, j, FieldSize, offset);
             }
         }
     }
@@ -102,7 +100,7 @@ public class GridComponent : MonoBehaviour
             tmp = nodesToCheck[minCostNode];
             nodesToCheck.Remove(tmp);
             checkedNodes.Add(tmp);
-            if (grid[tmp.coordinate.X, tmp.coordinate.Z].IsGoal)
+            if (Grid[tmp.coordinate.X, tmp.coordinate.Z].IsGoal)
             {
                 return CreatePath(tmp);
             }
@@ -114,7 +112,7 @@ public class GridComponent : MonoBehaviour
                 if (tmp.coordinate.X > 0)
                 {
                     tmpNeighbor = new Node(tmp.coordinate.X - 1, tmp.coordinate.Z);
-                    if (!grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
+                    if (!Grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
                     {
                         neighbors.Add(tmpNeighbor);
                     }
@@ -123,7 +121,7 @@ public class GridComponent : MonoBehaviour
                 if (tmp.coordinate.X < x - 1)
                 {
                     tmpNeighbor = new Node(tmp.coordinate.X + 1, tmp.coordinate.Z);
-                    if (!grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
+                    if (!Grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
                     {
                         neighbors.Add(tmpNeighbor);
                     }
@@ -132,7 +130,7 @@ public class GridComponent : MonoBehaviour
                 if (tmp.coordinate.Z > 0)
                 {
                     tmpNeighbor = new Node(tmp.coordinate.X, tmp.coordinate.Z - 1);
-                    if (!grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
+                    if (!Grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
                     {
                         neighbors.Add(tmpNeighbor);
                     }
@@ -141,7 +139,7 @@ public class GridComponent : MonoBehaviour
                 if (tmp.coordinate.Z < z - 1)
                 {
                     tmpNeighbor = new Node(tmp.coordinate.X, tmp.coordinate.Z + 1);
-                    if (!grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
+                    if (!Grid[tmpNeighbor.coordinate.X, tmpNeighbor.coordinate.Z].IsEnvironment && !checkedNodes.Any(node => node.coordinate.Equals(tmpNeighbor.coordinate)))
                     {
                         neighbors.Add(tmpNeighbor);
                     }
@@ -149,7 +147,7 @@ public class GridComponent : MonoBehaviour
 
                 foreach (Node neighbor in neighbors)
                 {
-                    int pathCost = tmp.Cost + grid[neighbor.coordinate.X, neighbor.coordinate.Z].GetPathCost();
+                    int pathCost = tmp.Cost + Grid[neighbor.coordinate.X, neighbor.coordinate.Z].GetPathCost();
                     if (nodesToCheck.Any(node => node.coordinate.Equals(neighbor.coordinate)))
                     {
                         tmpNeighbor = nodesToCheck.Find(n => n.coordinate.Equals(neighbor.coordinate));
@@ -190,8 +188,10 @@ public class GridComponent : MonoBehaviour
     }
     private List<FieldGridCoordinate> CreatePath(Node goal)
     {
-        List<FieldGridCoordinate> path = new List<FieldGridCoordinate>();
-        path.Add(goal.coordinate);
+        List<FieldGridCoordinate> path = new List<FieldGridCoordinate>
+        {
+            goal.coordinate
+        };
 
         Node previous = goal.Previous;
         while (previous.Previous != null)
@@ -215,7 +215,7 @@ public class GridComponent : MonoBehaviour
         {
             for (int j = 0; j < z; j++)
             {
-                if (!grid[x, z].IsEnvironment)
+                if (!Grid[x, z].IsEnvironment)
                 {
                     Node tmp = new Node(x, z);
                     graph.Add(tmp);
@@ -228,7 +228,7 @@ public class GridComponent : MonoBehaviour
     {
         pos -= offset;
         pos /= FieldSize;
-        return grid[(int)pos.x, (int)pos.z];
+        return Grid[(int)pos.x, (int)pos.z];
     }
 
     internal Vector3 GetNearestGridPosition(Vector3 mousePosition)
@@ -262,7 +262,7 @@ public class GridComponent : MonoBehaviour
             zPosition = (int)(mousePosition.z / FieldSize);
         }
 
-        return grid[xPosition, zPosition].GetMiddlePoint();
+        return Grid[xPosition, zPosition].GetMiddlePoint();
     }
     private class Node
     {

@@ -137,12 +137,26 @@ public class UIController : MonoBehaviour
     }
     void CreateTower(int towerId)
     {
-        GameManager.instance.CreateBuilding(towerId, GameManager.TOWER_TYPE);
+        if (GameManager.instance.CheckResources(towerId))
+        {
+            GameManager.instance.CreateBuilding(towerId, GameManager.TOWER_TYPE);
+        }
+        else
+        {
+            // TODO Show warning that ressources are to low
+        }
     }
 
     void CreatePlant(int plantId)
     {
-        GameManager.instance.CreateBuilding(plantId, GameManager.PLANT_TYPE);
+        if (GameManager.instance.CheckResources(plantId))
+        {
+            GameManager.instance.CreateBuilding(plantId, GameManager.PLANT_TYPE);
+        }
+        else
+        {
+            // TODO Show warning that ressources are to low
+        }
     }
     
     internal void OpenTowerMenu()

@@ -11,7 +11,7 @@ public class NormalPlant : AbstractPlant
         buildingData.ObjectType = DataObject.PLANT_TYPE;
         IsPlacement = true;
         gameObject.tag = "Plant";
-        gameObject.layer = LayerMask.NameToLayer("Plants");
+        gameObject.layer = LayerMask.NameToLayer("Plant");
         buildingData.building = gameObject;
     }
 

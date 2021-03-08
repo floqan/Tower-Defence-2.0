@@ -7,26 +7,28 @@ public class LevelUtility
 
     public static void LoadLevel(GridComponent gridComponent, LevelData levelData)
     {
-        foreach(FieldGridCoordinate goal in levelData.Goals)
+        if (levelData.Goals.Count < 1) throw new MissingComponentException("No Goals set!");
+        foreach (FieldGridCoordinate goal in levelData.Goals)
         {
-            gridComponent.grid[goal.X, goal.Z].IsGoal = true;
+            gridComponent.Grid[goal.X, goal.Z].IsGoal = true;
             GameObject goalObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            goalObject.transform.position = gridComponent.grid[goal.X, goal.Z].GetMiddlePoint();
+            goalObject.transform.position = gridComponent.Grid[goal.X, goal.Z].GetMiddlePoint();
             goalObject.GetComponent<Renderer>().material.color = Color.green;
         }
+        if(levelData.Spawns.Count < 1) throw new MissingComponentException("No spawn points set!");
         foreach(FieldGridCoordinate spawn in levelData.Spawns)
         {
-            gridComponent.Spawns.Add(new KeyValuePair<Field, List<FieldGridCoordinate>>( gridComponent.grid[spawn.X, spawn.Z], null));
+            gridComponent.Spawns.Add(new KeyValuePair<Field, List<FieldGridCoordinate>>( gridComponent.Grid[spawn.X, spawn.Z], null));
             GameObject spawnObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            spawnObject.transform.position = gridComponent.grid[spawn.X, spawn.Z].GetMiddlePoint();
+            spawnObject.transform.position = gridComponent.Grid[spawn.X, spawn.Z].GetMiddlePoint();
             spawnObject.GetComponent<Renderer>().material.color = Color.blue;
 
         }
         foreach (FieldGridCoordinate environment in levelData.Environment)
         {
-            gridComponent.grid[environment.X, environment.Z].IsEnvironment = true;
+            gridComponent.Grid[environment.X, environment.Z].IsEnvironment = true;
             GameObject environmentObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            environmentObject.transform.position = gridComponent.grid[environment.X, environment.Z].GetMiddlePoint();
+            environmentObject.transform.position = gridComponent.Grid[environment.X, environment.Z].GetMiddlePoint();
             environmentObject.GetComponent<Renderer>().material.color = Color.red;
         }
     }

@@ -41,7 +41,7 @@ public class Cropland : AbstractPlant
     {
         Plant = plantObject.GetComponent<AbstractPlant>();
         plantObject.transform.SetParent(gameObject.transform);
-        plantObject.GetComponent<AbstractPlant>().cropland = this;
+        plantObject.GetComponent<AbstractPlant>().Cropland = this;
 
     }
 }
