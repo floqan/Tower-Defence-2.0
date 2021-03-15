@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(gameManager.GameState == GameManager.State.Idle || gameManager.GameState == GameManager.State.OpenBuildingMenu)
+        if (gameManager.GameState == GameManager.State.Idle || gameManager.GameState == GameManager.State.OpenBuildingMenu)
         {
             if (!IsMouseOverUI() && Input.GetMouseButtonDown(0))
             {
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(gameManager.GameState == GameManager.State.OpenMerchantMenu)
+        if (gameManager.GameState == GameManager.State.OpenMerchantMenu)
         {
             if (Input.GetKeyUp(KeyCode.Escape) || (Input.GetMouseButtonUp(0) && !IsMouseOverUI()))
             {
@@ -93,19 +93,38 @@ public class PlayerController : MonoBehaviour
 
         if (gameManager.GameState == GameManager.State.Idle)
         {
-            if (!IsMouseOverUI() && Input.GetMouseButtonDown(0))
+
+            if (!IsMouseOverUI())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, LayerMask.GetMask("Plant")))
+                if (Physics.Raycast(ray, out RaycastHit hit))
                 {
-                    hit.transform.GetComponent<AbstractPlant>().Harvest();
+                    Collider[] items = Physics.OverlapSphere(hit.point, Playerstats.Collect_Item_Radius, LayerMask.GetMask("Item"));
+                    foreach (Collider item in items)
+                    {
+                        item.GetComponent<ItemController>().Collect();
+                    }
+                    if (Input.GetMouseButtonDown(0) && hit.transform.gameObject.layer == LayerMask.NameToLayer("Plant"))
+                    {
+                        hit.transform.GetComponent<AbstractPlant>().Harvest();
+                    }
                 }
             }
         }
+        // Set mouse position for loot pickup
+        SetMousePositionForLoot();
     }
 
     private bool IsMouseOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();
+    }
+
+    private void SetMousePositionForLoot()
+    {
+        //Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0,0,0.1f));
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, LayerMask.GetMask("Grid"));
+        Playerstats.mousePosition = hit.point - ray.direction.normalized * 3;
     }
 }

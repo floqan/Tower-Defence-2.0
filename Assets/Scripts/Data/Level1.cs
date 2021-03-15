@@ -10,9 +10,9 @@ public class Level1 : LevelData
         
         Enemies = new List<KeyValuePair<int, int>>();
         Enemies.Add(new KeyValuePair<int, int>(1, 0));
-        //Enemies.Add(new KeyValuePair<int, int>(1, 1));
-        //Enemies.Add(new KeyValuePair<int, int>(1, 0));
-        //Enemies.Add(new KeyValuePair<int, int>(1, 1));
+        Enemies.Add(new KeyValuePair<int, int>(1, 0));
+        Enemies.Add(new KeyValuePair<int, int>(1, 0));
+        Enemies.Add(new KeyValuePair<int, int>(1, 0));
 
         Spawns = new List<FieldGridCoordinate> ();
         Spawns.Add(new FieldGridCoordinate(1,2));

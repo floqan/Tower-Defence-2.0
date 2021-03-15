@@ -17,4 +17,6 @@ MonoBehaviour:
   Name: 'Carot '
   ObjectType: 1
   Description: A Carot
-  MoneyCost: 10
+  MoneyCost: 5
+  dropChance: 0
+  itemModel: {fileID: 0}

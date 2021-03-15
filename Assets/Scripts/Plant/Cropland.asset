@@ -19,6 +19,7 @@ MonoBehaviour:
   pathCost: 3
   moneyCost: 15
   building: {fileID: 0}
+  ResourcesCost: []
   GrowTimePerStep: 0
   YieldsPerHarvest: 0
   Step1: {fileID: 0}

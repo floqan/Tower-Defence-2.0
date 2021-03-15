@@ -15,9 +15,13 @@ MonoBehaviour:
   ObjectId: 10
   Image: {fileID: 0}
   Name: StandardTower
+  ObjectType: 3
   pathCost: 10
   moneyCost: 10
   building: {fileID: 0}
+  ResourcesCost:
+  - itemId: 2
+    itemAmount: 5
   AttackDamage: 10
   AttackSpeed: 5
   AttackRadius: 10

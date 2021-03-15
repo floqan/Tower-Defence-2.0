@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
     {
         time += Time.deltaTime;
         moneyTimer += Time.deltaTime;
-        if (time < 500)
+        if (time > 5)
         {
             time = 0;
             SpawnEnemy();
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
             OnObjectDestroyed += enemy.RecalculatePathAfterDestroy;
             int spawnId = levelData.Enemies[enemyCounter].Value;
             enemy.transform.position = grid.Spawns[spawnId].Key.GetMiddlePoint();
-            enemy.Path = grid.Spawns[spawnId].Value;
+            enemy.Path = new List<FieldGridCoordinate>( grid.Spawns[spawnId].Value);
             enemy.grid = grid;
             enemy.SetNextGoal();
             enemyCounter++;

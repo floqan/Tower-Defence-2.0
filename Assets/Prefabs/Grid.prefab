@@ -105,6 +105,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1895384824139348206}
+  - component: {fileID: 331634662}
+  - component: {fileID: 331634661}
   m_Layer: 8
   m_Name: Grid
   m_TagString: Untagged
@@ -127,3 +129,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &331634662
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129830569162216145}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 21.140705, y: 0.09013176, z: 21.881603}
+  m_Center: {x: 10.070353, y: -0.45493412, z: 10.440802}
+--- !u!114 &331634661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129830569162216145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddb87fb94aec724483624c6e7e905a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FieldSize: 1
+  x: 21
+  z: 21
+  showGrid: 0

@@ -81,6 +81,11 @@ public class Inventory : MonoBehaviour
     public List<int> GetIndexes() => resources.Keys.ToList();
     public void IncreaseResource(int itemId, int value)
     {
+        if(itemId == -1)
+        {
+            IncreaseMoney(value);
+            return;
+        }
         if (!resources.ContainsKey(itemId))
         {
             throw new KeyNotFoundException("Can not find ItemKey " + itemId + " in Inventory Dictionary");

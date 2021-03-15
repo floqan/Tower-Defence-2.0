@@ -19,4 +19,4 @@ MonoBehaviour:
   Description: 
   MoneyCost: 3
   dropChance: 50
-  itemModel: {fileID: 3815758774107773644, guid: 8d76e9b711c6df5429faf7fd1735e2aa, type: 3}
+  itemModel: {fileID: 8358476923777610998, guid: a46d70f649c841e4c88d46ac1ca1e7f0, type: 3}

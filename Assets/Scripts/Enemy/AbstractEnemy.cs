@@ -118,7 +118,6 @@ public abstract class AbstractEnemy : MonoBehaviour
         //Drop Coins
         for(int i = 0; i < lootCoins; i++)
         {
-            
             GameObject coin = Instantiate(Resources.Load<GameObject>("Prefab/Items/Coin"),transform.position,Quaternion.identity);
             coin.GetComponent<ItemController>().ItemId = -1;
             coin.GetComponent<Rigidbody>().AddForce(GetRandomDirection(100), ForceMode.Impulse);
@@ -130,7 +129,7 @@ public abstract class AbstractEnemy : MonoBehaviour
                 Item item = Inventory.instance.GetItemByItemId(itemId);
                 if (Random.Range(0, 101) < item.dropChance)
                 {
-                    GameObject itemObject = Instantiate<GameObject>(item.itemModel);
+                    GameObject itemObject = Instantiate<GameObject>(item.itemModel, transform.position, Quaternion.identity);
                     itemObject.GetComponent<ItemController>().ItemId = itemId;
                     itemObject.GetComponent<Rigidbody>().AddForce(GetRandomDirection(100), ForceMode.Impulse);
                 } 
