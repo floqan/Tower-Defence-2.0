@@ -8,10 +8,11 @@ public abstract class BuildingData : DataObject
     public int moneyCost;
     public GameObject building;
 
-    // First Value: ItemId
-    // Second Value: Amount
+    public int maxHitPoints;
+    public int currentHitPoints;
+
     [SerializeField]
-    public List<Resource> ResourcesCost;// = new List<KeyValuePair<int, int>>(); // TODO Find solution
+    public List<Resource> ResourcesCost;
 
     [System.Serializable]
     public class Resource

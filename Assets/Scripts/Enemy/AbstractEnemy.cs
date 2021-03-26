@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class AbstractEnemy : MonoBehaviour
 {
@@ -14,8 +15,13 @@ public abstract class AbstractEnemy : MonoBehaviour
     public float MovementSpeed;
     public float AttackSpeed;
     private float currentTime;
+    private bool pathCalculating; //TODO Einbauen oder wieder ausbauen, falls es nicht klappt
+    private int MaxHitPoints;
+    private IBuilding target;
     public int AttackDamage;
     public int HitPoints;
+    public Image healthBar;
+    public Canvas healthCanvas;
     //Loot
     public int lootCoins;
     // Key itemId Value amount of dropped loot
@@ -24,13 +30,16 @@ public abstract class AbstractEnemy : MonoBehaviour
     private void Awake()
     {
         currentTime = AttackSpeed / 2;
+        pathCalculating = false;
+        MaxHitPoints = HitPoints;
     }
 
     public void RecalculatePathAfterPlacement(object sender, CoordinateEventArgs args)
     {
         if (Path.Any(field => field.Equals(args.changedCoordinate)))
         {
-            Path = GameManager.instance.RecalculatePath(nextGoal.GridCoordinate);
+            pathCalculating = true;
+            StartCoroutine(RecalculatePath(nextGoal.GridCoordinate));
         }
     }
 
@@ -38,25 +47,25 @@ public abstract class AbstractEnemy : MonoBehaviour
     {
         if(!Path.Any(field => field.Equals(args.changedCoordinate)))
         {
-            Path = GameManager.instance.RecalculatePath(nextGoal.GridCoordinate);
+            pathCalculating = true;
+            StartCoroutine(RecalculatePath(nextGoal.GridCoordinate));
         }
     }
 
     // Update is called once per frame
     public virtual void Move()
     {
-        if (IsGoalReached())
+        if (IsGoalReached() && !AttackMode)
         {
             AttackMode = true;
         }
         if (!AttackMode)
         {
-            transform.position = Vector3.MoveTowards(transform.position, nextGoal.GetMiddlePoint(), MovementSpeed * Time.deltaTime);
-            transform.LookAt(nextGoal.GetMiddlePoint());
-            if (IsNextGoalReached())
-            {
+              transform.position = Vector3.MoveTowards(transform.position, nextGoal.GetMiddlePoint(), MovementSpeed * Time.deltaTime);
+              if (IsNextGoalReached())
+              {
                 SetNextGoal();
-            }
+              }        
         }
         else
         {
@@ -72,6 +81,7 @@ public abstract class AbstractEnemy : MonoBehaviour
                 }
             }
         }
+        healthCanvas.transform.LookAt(2 * transform.position - Camera.main.transform.position);
     }
 
     public void SetNextGoal()
@@ -85,6 +95,11 @@ public abstract class AbstractEnemy : MonoBehaviour
         nextGoal = grid.Grid[Path[0].X, Path[0].Z];
         nextGoal.LockField();
         Path.RemoveAt(0);
+        transform.LookAt(nextGoal.GetMiddlePoint());
+        if (nextGoal.building != null)
+        {
+            AttackMode = true;
+        }
     }
     bool IsNextGoalReached()
     {
@@ -104,6 +119,7 @@ public abstract class AbstractEnemy : MonoBehaviour
     public void OnDamage(int damage)
     {
         HitPoints -= damage;
+        healthBar.fillAmount = (float)HitPoints / (float)MaxHitPoints;
         //TODO Add Damage Type
         //TODO Add Damage Reduction
         if(HitPoints <= 0)
@@ -142,5 +158,12 @@ public abstract class AbstractEnemy : MonoBehaviour
         float directionX = Random.Range(-100f, 100f);
         float directionZ = Random.Range(-100f, 100f);
         return new Vector3(directionX, force, directionZ);
+    }
+
+    private IEnumerator RecalculatePath(FieldGridCoordinate coordinate)
+    {
+        Path = GameManager.instance.RecalculatePath(nextGoal.GridCoordinate);
+        pathCalculating = true;
+        yield return null;
     }
 }

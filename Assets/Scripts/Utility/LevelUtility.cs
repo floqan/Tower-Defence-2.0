@@ -14,6 +14,7 @@ public class LevelUtility
             GameObject goalObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             goalObject.transform.position = gridComponent.Grid[goal.X, goal.Z].GetMiddlePoint();
             goalObject.GetComponent<Renderer>().material.color = Color.green;
+            //goalObject.AddComponent<GoalController>();
         }
         if(levelData.Spawns.Count < 1) throw new MissingComponentException("No spawn points set!");
         foreach(FieldGridCoordinate spawn in levelData.Spawns)

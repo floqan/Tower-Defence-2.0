@@ -16,16 +16,11 @@ public class Enemy1 : AbstractEnemy
     void Update()
     {
         Move();
-        //transform.position += new Vector3(0.5f, 0,0) * Time.deltaTime; 
-    }
-
-    public override void Move()
-    {
-        base.Move();
     }
 
     public override void Attack()
     {
+        
         Debug.Log("Not implemented: Enemy Attack");
     }
 }

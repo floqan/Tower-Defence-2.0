@@ -18,7 +18,6 @@ public class EnemyDetector : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("One more Enemy");
             tower.AddEnemyInRange(other.transform);
         }
     }
@@ -27,7 +26,6 @@ public class EnemyDetector : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("One Enemy less");
             tower.RemoveEnemyInRange(other.transform);
         }
     }

@@ -21,6 +21,7 @@ public abstract class AbstractPlant : Building<PlantData>, IPlant
         currentState = 1;
         currentTime = 0;
         gameObject.layer = LayerMask.NameToLayer("Plant");
+        buildingData.currentHitPoints = buildingData.maxHitPoints;
     }
 
     private void Update()
@@ -46,5 +47,11 @@ public abstract class AbstractPlant : Building<PlantData>, IPlant
     public virtual void SetColorDisabled()
     {
         Model.GetComponent<Renderer>().material.color = Color.red;
+    }
+
+    public void OnDamage(int damage)
+    {
+        buildingData.currentHitPoints -= damage;
+        throw new System.NotImplementedException();
     }
 }

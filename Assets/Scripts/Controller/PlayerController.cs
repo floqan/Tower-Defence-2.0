@@ -78,16 +78,19 @@ public class PlayerController : MonoBehaviour
                         case "Merchant":
                             gameManager.OpenMerchantMenu();
                             break;
+                        case "Storage":
+                            gameManager.OpenStorageMenu();
+                            break;
                     }
                 }
             }
         }
 
-        if (gameManager.GameState == GameManager.State.OpenMerchantMenu)
+        if (gameManager.GameState == GameManager.State.OpenMenuPanel)
         {
             if (Input.GetKeyUp(KeyCode.Escape) || (Input.GetMouseButtonUp(0) && !IsMouseOverUI()))
             {
-                gameManager.CloseMerchantMenu();
+                gameManager.CloseAll();
             }
         }
 
@@ -125,6 +128,6 @@ public class PlayerController : MonoBehaviour
         //Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0,0,0.1f));
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, LayerMask.GetMask("Grid"));
-        Playerstats.mousePosition = hit.point - ray.direction.normalized * 3;
+        Playerstats.mousePosition = hit.point - ray.direction.normalized * 2;
     }
 }

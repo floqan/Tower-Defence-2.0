@@ -170,7 +170,6 @@ public class UIController : MonoBehaviour
         {
             TowerMenu.SetActive(false);
         }
-        throw new NotImplementedException("Close tower menu");
     }
 
     internal void OpenPlantMenu()
@@ -183,7 +182,6 @@ public class UIController : MonoBehaviour
         {
             PlantMenu.SetActive(false);
         }
-        throw new NotImplementedException("Close plant menu");
     }
     internal void OpenMerchantMenu()
     {
@@ -192,5 +190,15 @@ public class UIController : MonoBehaviour
     internal void CloseMerchantMenu()
     {
         MerchantPanel.SetActive(false);
+    }
+
+    internal void OpenStorageMenu()
+    {
+
+    }
+
+    internal void CloseStorageMenu()
+    {
+
     }
 }

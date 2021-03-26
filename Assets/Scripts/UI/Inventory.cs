@@ -117,12 +117,16 @@ public class Inventory : MonoBehaviour
         switch (objectId)
         {
             case -1: MAX_VALUE_MONEY = newMaxValue;
+                Playerstats.Max_Values_Levels.Money++;
                 break;
             case 1: MAX_VALUE_PLANTS = newMaxValue;
+                Playerstats.Max_Values_Levels.Plants++;
                 break;
             case 2: MAX_VALUE_ELECTRONIC_PARTS = newMaxValue;
+                Playerstats.Max_Values_Levels.Electronic_Parts++;
                 break;
             case 3: MAX_VALUE_MECHANICAL_PARTS = newMaxValue;
+                Playerstats.Max_Values_Levels.Mechanical_Parts++;
                 break;
             default: throw new ItemException("No objectType for id " + objectId + " found");
         }

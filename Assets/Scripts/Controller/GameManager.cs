@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public const int TOWER_TYPE = 2;
     public State GameState { get; set; }
 
-    public enum State { Idle, PlacingObject, OpenMerchantMenu, OpenBuildingMenu };
+    public enum State { Idle, PlacingObject, OpenMenuPanel, OpenBuildingMenu};
 
     public static event EventHandler<CoordinateEventArgs> OnNewObjectPlaced;
     public static event EventHandler<CoordinateEventArgs> OnObjectDestroyed;
@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
     public float MoneyTime = 2; //TODO Change to private
     private float moneyTimer;
     private float time = 0;
+
+    private bool CalculatingPath = false;
 
     // Start is called before the first frame update
     void Start()
@@ -71,8 +73,7 @@ public class GameManager : MonoBehaviour
         moneyTimer += Time.deltaTime;
         if (time > 5)
         {
-            time = 0;
-            SpawnEnemy();
+            if(SpawnEnemy()) time = 0;
         }
 
         if (moneyTimer > MoneyTime)
@@ -143,6 +144,8 @@ public class GameManager : MonoBehaviour
         GameState = State.Idle;
         ui.ClosePlantMenu();
         ui.CloseTowerMenu();
+        ui.CloseMerchantMenu();
+        ui.CloseStorageMenu();
     }
 
     internal void CloseTowerMenu()
@@ -163,7 +166,7 @@ public class GameManager : MonoBehaviour
 
     internal void OpenMerchantMenu()
     {
-        GameState = State.OpenMerchantMenu;
+        GameState = State.OpenMenuPanel;
         ui.OpenMerchantMenu();
     }
 
@@ -173,9 +176,24 @@ public class GameManager : MonoBehaviour
         ui.CloseMerchantMenu();
     }
 
-    private void SpawnEnemy()
+    internal void OpenStorageMenu()
     {
-        if (enemyCounter < levelData.GetNumberOfEnemies()) {
+        GameState = State.OpenMenuPanel;
+        ui.OpenStorageMenu();
+    }
+
+    internal void CloseStorageMenu()
+    {
+        GameState = State.Idle;
+        ui.CloseStorageMenu();
+    }
+
+    private bool SpawnEnemy()
+    {
+        if (enemyCounter < levelData.GetNumberOfEnemies())
+        {
+            if (CalculatingPath) return false;
+            
             GameObject enemyGameObject = EnemyUtility.GetEnemyByID(levelData.Enemies[enemyCounter].Key);
             enemyGameObject.tag = "Enemy";
             AbstractEnemy enemy = enemyGameObject.GetComponent<AbstractEnemy>();
@@ -183,11 +201,12 @@ public class GameManager : MonoBehaviour
             OnObjectDestroyed += enemy.RecalculatePathAfterDestroy;
             int spawnId = levelData.Enemies[enemyCounter].Value;
             enemy.transform.position = grid.Spawns[spawnId].Key.GetMiddlePoint();
-            enemy.Path = new List<FieldGridCoordinate>( grid.Spawns[spawnId].Value);
+            enemy.Path = new List<FieldGridCoordinate>(grid.Spawns[spawnId].Value);
             enemy.grid = grid;
             enemy.SetNextGoal();
-            enemyCounter++;
+            enemyCounter++;    
         }
+        return true;
     }
 
     private void GiveSalary()
@@ -366,5 +385,10 @@ public class GameManager : MonoBehaviour
             if (!inventory.CheckResource(resource.itemId, resource.itemAmount)) return false;
         }
         return true;
+    }
+
+    internal void GoalDestroyed()
+    {
+        throw new NotSupportedException("GAME OVER");
     }
 }

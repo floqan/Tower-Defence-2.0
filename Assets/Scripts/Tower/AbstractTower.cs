@@ -19,6 +19,7 @@ public abstract class AbstractTower : Building<TowerData>, ITower
         IsPlacement = true;
         gameObject.tag = "Tower";
         buildingData.building = gameObject;
+        buildingData.currentHitPoints = buildingData.maxHitPoints;
     }
 
     public void AddEnemyInRange(Transform enemy)
@@ -38,5 +39,11 @@ public abstract class AbstractTower : Building<TowerData>, ITower
     public void SetColorDisabled()
     {
         gameObject.GetComponent<Renderer>().material.color = Color.red;
+    }
+
+    public void OnDamage(int damage)
+    {
+        buildingData.currentHitPoints -= damage;
+        throw new System.NotImplementedException();
     }
 }

@@ -32,6 +32,11 @@ public class ItemController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         if (stop && !collecting)
         {
             positionMarker += Time.deltaTime;
@@ -62,10 +67,7 @@ public class ItemController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (start && !stop && !collecting)
         {
             Vector3 velocity = gameObject.GetComponent<Rigidbody>().velocity;
@@ -75,8 +77,8 @@ public class ItemController : MonoBehaviour
                 stopPosition = transform.position;
                 stopRotation = transform.rotation;
                 stop = true;
-                gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                gameObject.GetComponent<Rigidbody>().useGravity = false;
+                Destroy(gameObject.GetComponent<Rigidbody>());//.isKinematic = true;
+                //gameObject.GetComponent<Rigidbody>().useGravity = false;
             }
         }
 

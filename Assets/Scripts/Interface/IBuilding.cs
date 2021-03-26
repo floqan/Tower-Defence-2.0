@@ -9,4 +9,5 @@ public interface IBuilding
     void SetColorEnabled();
 
     void SetColorDisabled();
+    void OnDamage(int damage);
 }

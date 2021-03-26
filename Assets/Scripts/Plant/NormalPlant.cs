@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class NormalPlant : AbstractPlant
 { 
-
-
     private void Awake()
     {
         buildingData.ObjectType = DataObject.PLANT_TYPE;
@@ -22,7 +20,6 @@ public class NormalPlant : AbstractPlant
 
     public override void Harvest()
     {
-        Debug.Log("Try To Harvest");
         if (currentState != MAX_STATE)
         {
             return;
@@ -30,7 +27,6 @@ public class NormalPlant : AbstractPlant
         //Play Animation
         Inventory.instance.IncreaseResource(buildingData.ObjectId, buildingData.YieldsPerHarvest);
         
-        Debug.Log("Harvest");
         Destroy(gameObject);
     }
     public override void Grow()
